@@ -114,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF31363F),
       appBar: AppBar(
         title: Text(
           'Gas Leakage Survey',
@@ -125,32 +126,38 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _currentPosition != null
           ? Stack(
               children: [
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                      _currentPosition!.latitude,
-                      _currentPosition!.longitude,
-                    ),
-                    zoom: 25.0,
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  myLocationEnabled: true,
-                  compassEnabled: true,
-                  markers: {
-                    Marker(
-                      markerId: MarkerId('1'),
-                      position: LatLng(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
                         _currentPosition!.latitude,
                         _currentPosition!.longitude,
                       ),
-                      infoWindow: InfoWindow(
-                        title: 'My current location',
-                      ),
+                      zoom: 25.0,
                     ),
-                  },
-                  polylines: _polylines,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    myLocationEnabled: true,
+                    compassEnabled: true,
+                    markers: {
+                      Marker(
+                        markerId: MarkerId('1'),
+                        position: LatLng(
+                          _currentPosition!.latitude,
+                          _currentPosition!.longitude,
+                        ),
+                        infoWindow: InfoWindow(
+                          title: 'My current location',
+                        ),
+                      ),
+                    },
+                    polylines: _polylines,
+                  ),
                 ),
                 Positioned(
                   bottom: 20,
