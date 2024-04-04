@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
+import 'package:gas_leakage_survey/screens/login/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: const HomeScreen(),
+      // home: const HomeScreen(),
+      home: const LogIn(),
     );
   }
 }

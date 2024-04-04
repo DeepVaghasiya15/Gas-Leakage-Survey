@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
+import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
+import 'package:gas_leakage_survey/screens/side_drawer/side_drawer_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -122,6 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Color(0xFF31363F),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: Icon(Icons.menu),
+        //   onPressed: () {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context) => SideDrawer()));
+        //   },
+        // ),
       ),
       body: _currentPosition != null
           ? Stack(
@@ -206,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // color: Colors.transparent,
                       child: MaterialButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => RaiseTicket()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RaiseTicketScreenOptions()));
                         },
                         color: Color(0xFF76ABAE),
                         shape: RoundedRectangleBorder(

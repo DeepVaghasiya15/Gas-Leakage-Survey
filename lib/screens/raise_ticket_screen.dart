@@ -15,6 +15,7 @@ class _RaiseTicketState extends State<RaiseTicket> {
 
   bool isLoading = false;
   bool isSubmitted = false;
+  List<bool> isExpandedList = [false,false,false];
 
   String? _selectedTypeOfLeak;
   String? _selectedConsumerType;
@@ -115,6 +116,8 @@ class _RaiseTicketState extends State<RaiseTicket> {
                     onChanged: (value) {
                       setState(() {
                         _selectedTypeOfLeak = value;
+                        _selectedConsumerType = null;
+                        isExpandedList[1] = true;
 
                         if (value == "Underground" || value == "Above Ground") {
                           _selectedPipeline = null;
@@ -129,11 +132,11 @@ class _RaiseTicketState extends State<RaiseTicket> {
                           _selectedLeakGrading = null;
                         }
                       });
-                      //Do something when selected item is changed.
                     },
                     onSaved: (value) {
                       setState(() {
                         _selectedTypeOfLeak = value;
+
                       });
                     },
                     buttonStyleData: const ButtonStyleData(
@@ -174,7 +177,7 @@ class _RaiseTicketState extends State<RaiseTicket> {
                     height: 5,
                   ),
                   DropdownButtonFormField2<String>(
-                    isExpanded: true,
+                    isExpanded: isExpandedList[1],
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(vertical: 16),
                       border: OutlineInputBorder(
@@ -216,6 +219,8 @@ class _RaiseTicketState extends State<RaiseTicket> {
                     onChanged: (value) {
                       setState(() {
                         _selectedConsumerType = value;
+                        _selectedLeakFirstDetectedThrough = null;
+                        isExpandedList[2] = true;
                       });
                       //Do something when selected item is changed.
                     },
@@ -260,7 +265,7 @@ class _RaiseTicketState extends State<RaiseTicket> {
                   ),
                   const SizedBox(height: 5),
                   DropdownButtonFormField2<String>(
-                    isExpanded: true,
+                    isExpanded: isExpandedList[2],
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(vertical: 16),
                       border: OutlineInputBorder(
@@ -1321,7 +1326,7 @@ class _RaiseTicketState extends State<RaiseTicket> {
                       if (isLoading) return;
 
                       setState(() => isLoading = true);
-                      await Future.delayed(Duration(seconds: 5));
+                      await Future.delayed(Duration(seconds: 3));
                       setState(() {
                         isLoading = false;
                         isSubmitted = true;
