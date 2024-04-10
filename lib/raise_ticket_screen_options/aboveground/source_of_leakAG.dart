@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
+import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/location_of_pipeAG.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/probable_cause_of_leak_after_diggingAG.dart';
 
 class SourceOfLeakAG extends StatelessWidget {
@@ -32,7 +33,7 @@ class SourceOfLeakAG extends StatelessWidget {
                                 // Add your onPressed functionality here
                                 print('Button pressed: $type');
                                 // You can navigate or perform any other action here
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ProbableCauseOfLeakAfterDiggingAG()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => LocationOfPipeAG()));
                               },
                               color: Color(0xFF76ABAE),
                               shape: RoundedRectangleBorder(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 class FormFill extends StatefulWidget {
   const FormFill({super.key});
@@ -11,6 +12,28 @@ class FormFill extends StatefulWidget {
 class _FormFillState extends State<FormFill> {
   bool isLoading = false;
   bool isSubmitted = false;
+
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _controller = CameraController(
+  //     CameraDescription(
+  //       name: "0",
+  //       lensDirection: CameraLensDirection.back,
+  //     ),
+  //     ResolutionPreset.medium,
+  //   );
+  //   _initializeControllerFuture = _controller.initialize();
+  // }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +138,7 @@ class _FormFillState extends State<FormFill> {
               const SizedBox(
                 height: 30,
               ),
+
               ElevatedButton(
                 onPressed: () async {
                   if (isLoading) return;

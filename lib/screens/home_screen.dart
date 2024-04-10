@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
+import 'package:gas_leakage_survey/screens/side_drawer/inbuilt_drawer.dart';
 import 'package:gas_leakage_survey/screens/side_drawer/side_drawer_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -125,6 +125,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Color(0xFF31363F),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu_rounded),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
         // leading: IconButton(
         //   icon: Icon(Icons.menu),
         //   onPressed: () {
@@ -132,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //   },
         // ),
       ),
+      drawer: const DrawerHomeScreen(),
       body: _currentPosition != null
           ? Stack(
               children: [

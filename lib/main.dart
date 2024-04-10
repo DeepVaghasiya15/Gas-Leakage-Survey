@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gas_leakage_survey/raise_ticket_screen_options/form_fill.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:gas_leakage_survey/screens/login/login_screen.dart';
+import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
+import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
+import 'package:gas_leakage_survey/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +20,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       // home: const HomeScreen(),
-      home: const LogIn(),
+      // home: const LogIn(),
+      home: SplashScreen(), //main
+      // home: FormFill(),
+      // home: RaiseTicketScreenOptions(),
     );
   }
 }

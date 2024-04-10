@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakage_after_diggingUG.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+import '../aboveground/source_of_leakage_afterDiggingAG.dart';
+
 class CoverOfPipeline extends StatelessWidget {
   const CoverOfPipeline({Key? key}) : super(key: key);
 
@@ -31,8 +34,16 @@ class CoverOfPipeline extends StatelessWidget {
                               onPressed: () {
                                 // Add your onPressed functionality here
                                 print('Button pressed: $type');
+                                if (selectedOption == 'Underground') {
+                                  print('Underground selected');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakageAfterDiggingUG()));
+                                } else if (selectedOption == 'Above Ground') {
+                                  print('Above Ground selected');
+                                  // Navigate to the corresponding screen for 'Above Ground'
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakageAfterDiggingAG()));
+                                }
                                 // You can navigate or perform any other action here
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakageAfterDiggingUG()));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakageAfterDiggingUG()));
                               },
                               color: Color(0xFF76ABAE),
                               shape: RoundedRectangleBorder(
