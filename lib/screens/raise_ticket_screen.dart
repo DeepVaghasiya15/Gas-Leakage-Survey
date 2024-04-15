@@ -1,17 +1,22 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:gas_leakage_survey/reusable_widget/switch_screen.dart';
 
 import '../data/raise_ticket_conditions.dart';
 import '../data/raise_ticket_data.dart';
+import '../raise_ticket_screen_options/underground/consumer_type.dart';
 
 class RaiseTicket extends StatefulWidget {
-  const RaiseTicket({super.key});
+  const RaiseTicket({Key? key}) : super(key: key);
 
   @override
-  State<RaiseTicket> createState() => _RaiseTicketState();
+  _RaiseTicketState createState() => _RaiseTicketState();
 }
 
+
 class _RaiseTicketState extends State<RaiseTicket> {
+
+  late bool _isSwitched;
 
   bool isLoading = false;
   bool isSubmitted = false;
@@ -32,6 +37,12 @@ class _RaiseTicketState extends State<RaiseTicket> {
   String? _selectedLeakGrading;
 
   @override
+  void initState() {
+    super.initState();
+    _isSwitched = true; // Initially on
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF31363F),
@@ -45,6 +56,17 @@ class _RaiseTicketState extends State<RaiseTicket> {
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
+        // actions: [
+        //   Switch(
+        //     value: _isSwitched,
+        //     onChanged: (value) {
+        //       setState(() {
+        //         _isSwitched = value;
+        //         widget.onSwitchChanged(value);
+        //       });
+        //     },
+        //   ),
+        // ],
       ),
       body: ClipRRect(
         borderRadius: BorderRadius.only(

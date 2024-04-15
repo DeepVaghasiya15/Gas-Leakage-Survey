@@ -8,7 +8,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final bool isSurveyInProgress;
+
+  const HomeScreen({Key? key, required this.isSurveyInProgress}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,6 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getCurrentLocation();
+
+    if (widget.isSurveyInProgress) {
+      _startRecording(); // Resume recording if survey is in progress
+      _startLocationUpdates();
+    }
+    // _printCurrentPosition();
   }
 
   Future<void> _getCurrentLocation() async {
@@ -41,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.best);
 
       setState(() {
         _currentPosition = position;
@@ -50,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       print("Error: $e");
     }
   }
+
 
   void _toggleRecording() {
     setState(() {
@@ -74,6 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void _stopRecording() {
     _stopLocationUpdates();
     _updatePolylines();
+    setState(() {
+      _isRecording = false; // Update _isRecording state to false
+    });
   }
 
   void _startLocationUpdates() {
@@ -108,21 +120,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _updateMarkerPosition() async {
+    print('Updating marker position:');
+    print('Current Latitude: ${_currentPosition!.latitude}');
+    print('Current Longitude: ${_currentPosition!.longitude}');
+
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLng(
         LatLng(_currentPosition!.latitude, _currentPosition!.longitude)));
+
+    print('Marker position updated.');
   }
+
+
+  void _printCurrentPosition() {
+    if (_currentPosition != null) {
+      print('Current Latitude: ${_currentPosition!.latitude}');
+      print('Current Longitude: ${_currentPosition!.longitude}');
+    } else {
+      print('Current position is not available yet. Trying again...');
+      _getCurrentLocation(); // Attempt to fetch the current location again
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF31363F),
+      // backgroundColor: Color(0xFF31363F),
       appBar: AppBar(
         title: Text(
           'Gas Leakage Survey',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color(0xFF31363F),
+        backgroundColor: Color(0xFFFFC604),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: Builder(
@@ -135,12 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-        // leading: IconButton(
-        //   icon: Icon(Icons.menu),
-        //   onPressed: () {
-        //     Navigator.push(context, MaterialPageRoute(builder: (context) => SideDrawer()));
-        //   },
-        // ),
       ),
       drawer: const DrawerHomeScreen(),
       body: _currentPosition != null
@@ -148,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
                   ),
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
@@ -165,80 +189,89 @@ class _HomeScreenState extends State<HomeScreen> {
                     myLocationEnabled: true,
                     compassEnabled: true,
                     markers: {
-                      Marker(
-                        markerId: MarkerId('1'),
-                        position: LatLng(
-                          _currentPosition!.latitude,
-                          _currentPosition!.longitude,
-                        ),
-                        infoWindow: InfoWindow(
-                          title: 'My current location',
-                        ),
-                      ),
+                      // Marker(
+                      //   markerId: MarkerId('1'),
+                      //   position: LatLng(
+                      //     _currentPosition!.latitude,
+                      //     _currentPosition!.longitude,
+                      //   ),
+                      //   infoWindow: InfoWindow(
+                      //     title: 'My current location',
+                      //   ),
+                      // ),
                     },
                     polylines: _polylines,
                   ),
                 ),
                 Positioned(
                   bottom: 20,
-                  // right: 60,
                   left: 65,
                   right: 65,
-                  child: Container(
-                    width: 220, // Adjust width according to your preference
-                    height: 50, // Adjust height according to your preference
-                    decoration: BoxDecoration(
-                      color: _isRecording ? Colors.red : Color(0xFF76ABAE),
+                  child: _isRecording ? Container() : MaterialButton(
+                    onPressed: _toggleRecording,
+                    color: Color(0xFFFFC604),
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // changes position of shadow
+                    ),
+                    minWidth: double.infinity,
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.play_arrow, color: Colors.black), // Icon
+                        SizedBox(width: 8),
+                        Text(
+                          'Start Leakage Survey',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
                         ),
                       ],
-                    ),
-
-                    child: TextButton.icon(
-                      onPressed: _toggleRecording,
-                      icon: Icon(
-                        _isRecording ? Icons.stop : Icons.play_arrow,
-                        color: Colors.black,
-                        size: 30, // Increase the size of the icon
-                      ),
-                      label: Text(
-                        _isRecording ? 'Stop' : 'Start Leakage Survey',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16), // Increase the size of the text
-                      ),
                     ),
                   ),
                 ),
                 Positioned(
-                  top: 6.5, // Adjust position according to your preference
-                  left: 65,
-                  right: 65,
+                  bottom: 20,
+                  left: 0,
+                  right: 0,
                   child: Visibility(
                     visible: _isRecording,
-                    child: Container(
-                      // color: Colors.transparent,
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => RaiseTicketScreenOptions()));
-                        },
-                        color: Color(0xFF76ABAE),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: _stopRecording,
+                          icon: Icon(Icons.stop,color: Colors.black,),
+                          label: Text('Stop',style: TextStyle(color: Colors.black),),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10), // Set the border radius here
+                            ),
+                            minimumSize: Size(50,50),// Set the button background color to red
+                          ),
                         ),
-                        minWidth: double.infinity,
-                        height: 40,
-                        child: const Text(
-                          'Raise a Ticket',
-                          style: TextStyle(fontSize: 17, color: Colors.black),
+                        SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RaiseTicketScreenOptions(isSurveyInProgress: true,),
+                              ),
+                            );
+                          },
+                          child: Text('Raise Ticket',style: TextStyle(color: Colors.black,fontSize: 16),),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFFFC604),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10), // Set the border radius here
+                            ),
+                            minimumSize: Size(50,50),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),

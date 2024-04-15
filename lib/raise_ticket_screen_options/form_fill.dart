@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:gas_leakage_survey/screens/home_screen.dart';
 
 class FormFill extends StatefulWidget {
   const FormFill({super.key});
@@ -41,7 +42,7 @@ class _FormFillState extends State<FormFill> {
       appBar: AppBar(title: Text("Raise Ticket")),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
           child: Column(
             children: [
               Align(
@@ -62,7 +63,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color(0xFF76ABAE),
+                        color: Color(0xFFFFC604),
                         width: 2.0), // Set your custom color here
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -84,7 +85,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color(0xFF76ABAE),
+                        color: Color(0xFFFFC604),
                         width: 2.0), // Set your custom color here
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -106,7 +107,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color(0xFF76ABAE),
+                        color: Color(0xFFFFC604),
                         width: 2.0), // Set your custom color here
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -128,7 +129,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color(0xFF76ABAE),
+                        color: Color(0xFFFFC604),
                         width: 2.0), // Set your custom color here
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -136,7 +137,7 @@ class _FormFillState extends State<FormFill> {
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 45,
               ),
 
               ElevatedButton(
@@ -149,6 +150,13 @@ class _FormFillState extends State<FormFill> {
                     isLoading = false;
                     isSubmitted = true;
                   });
+                  // Navigator.of(context).pushReplacement(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HomeScreen(isSurveyInProgress: true),
+                  //   ),
+                  // );
+                  Navigator.popUntil(context, (route) => route.isFirst);
+
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: TextStyle(fontSize: 24),
@@ -156,7 +164,7 @@ class _FormFillState extends State<FormFill> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  backgroundColor: Color(0xFF76ABAE), // Change button color here
+                  backgroundColor: Color(0xFFFFC604), // Change button color here
                 ),
                 child: isLoading
                     ? Row(

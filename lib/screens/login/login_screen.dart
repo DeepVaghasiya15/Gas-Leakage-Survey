@@ -70,7 +70,7 @@ class _LogInState extends State<LogIn> {
         // Navigate to the home screen.
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
         );
       } else {
         // Handle the error.
@@ -184,10 +184,10 @@ class _LogInState extends State<LogIn> {
                   ),
                   const SizedBox(height: 40),
                   MaterialButton(
-                    onPressed: _login,
-                    // onPressed: () {
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-                    // },
+                    // onPressed: _login,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
+                    },
                     color: Color(0xFF76ABAE),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),

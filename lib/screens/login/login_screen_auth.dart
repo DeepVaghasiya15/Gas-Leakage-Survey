@@ -28,10 +28,10 @@ class _LogInAuthState extends State<LogInAuth> {
 
     if (response.statusCode == 200) {
       // If authentication is successful, navigate to the home screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+      // );
     } else {
       // Handle authentication failure, show error message, etc.
       print('Authentication failed');

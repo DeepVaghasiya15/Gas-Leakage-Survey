@@ -5,58 +5,70 @@ import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/diame
 class PipelineDistributionAG extends StatelessWidget {
   const PipelineDistributionAG({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Raise Ticket")),
-      body: Column(
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text("Raise Ticket"),
+      backgroundColor: Color(0xFFFFC604),
+    ),
+    body: Padding(
+      padding: const EdgeInsets.only(top:100.0,right: 20,left: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 190, horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      DataFields[5], // Replace with your text or use DataFields[0]
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    Column(
-                      children: pipelineDistributionAG.map((type) {
-                        return Column(
-                          children: [
-                            MaterialButton(
-                              onPressed: () {
-                                // Add your onPressed functionality here
-                                print('Button pressed: $type');
-                                // You can navigate or perform any other action here
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DiameterOfPipelineAGService()));
-                              },
-                              color: Color(0xFF76ABAE),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              minWidth: double.infinity,
-                              height: 50,
-                              child: Text(
-                                type,
-                                style: TextStyle(fontSize: 17, color: Colors.black),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ],
+          Text(
+            DataFields[5],
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 70),
+          GridView.count(
+            crossAxisCount: 1, // 2 columns
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: pipelineDistributionAG.asMap().entries.map((entry) {
+              int index = entry.key;
+              String type = entry.value;
+              String iconPath = pipelineDistributionAGIcon[index];
+
+              return Padding(
+                padding: EdgeInsets.all(70),
+                child: MaterialButton(
+                  onPressed: () {
+                    // Add your onPressed functionality here
+                    print('Button pressed: $type');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DiameterOfPipelineAGService()));
+                  },
+                  color: Color(0xFFFFC604),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  elevation: 10,
+                  minWidth: double.infinity,
+                  height: 100, // Increased height to accommodate the icon
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        iconPath, // Use the icon path from the list
+                        height: 40, // Adjust height of the icon as needed
+                      ),
+                      SizedBox(height: 5), // Add some space between icon and text
+                      Text(
+                        type,
+                        style: TextStyle(fontSize: 17, color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }).toList(),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // home: const HomeScreen(),
+      home: const HomeScreen(isSurveyInProgress: false,),
       // home: const LogIn(),
-      home: SplashScreen(), //main
+      // home: SplashScreen(), //main
       // home: FormFill(),
-      // home: RaiseTicketScreenOptions(),
+      // home: RaiseTicketScreenOptions(isSurveyInProgress: true,),
     );
   }
 }

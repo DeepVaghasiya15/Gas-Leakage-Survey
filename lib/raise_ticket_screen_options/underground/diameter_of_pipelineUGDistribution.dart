@@ -8,54 +8,75 @@ class DiameterOfPipelineUGDistribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Raise Ticket")),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 190, horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      DataFields[6], // Replace with your text or use DataFields[0]
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      appBar: AppBar(
+        title: Text("Raise Ticket"),
+        backgroundColor: Color(0xFFFFC604),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 60.0, right: 20, left: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              DataFields[6],
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 190),
+            GridView.count(
+              crossAxisCount: 2, // 2 columns
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: List.generate(
+                // Generate a list of pairs of texts and arrays
+                diameterOfPipelineUGDistribution.length,
+                (index) {
+                  String type = diameterOfPipelineUGDistributionNumber[index];
+                  String otherArray = diameterOfPipelineUGDistribution[
+                      index]; // Assuming you have another array to pair with each text
+
+                  return Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: MaterialButton(
+                      onPressed: () {
+                        // Add your onPressed functionality here
+                        print('Button pressed: $type');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SourceOfLeakUG()));
+                      },
+                      color: Color(0xFFFFC604),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 10,
+                      minWidth: double.infinity,
+                      height: 100,
+                      // Increased height to accommodate the icon
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            type,
+                            style: TextStyle(fontSize: 40, color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 1),
+                          Text(
+                            otherArray,
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 40),
-                    Column(
-                      children: diameterOfPipelineUGDistribution.map((type) {
-                        return Column(
-                          children: [
-                            MaterialButton(
-                              onPressed: () {
-                                // Add your onPressed functionality here
-                                print('Button pressed: $type');
-                                // You can navigate or perform any other action here
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakUG()));
-                              },
-                              color: Color(0xFF76ABAE),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              minWidth: double.infinity,
-                              height: 50,
-                              child: Text(
-                                type,
-                                style: TextStyle(fontSize: 17, color: Colors.black),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -17,11 +17,11 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         DrawerHeader(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xFFFFC604),
           ),
           child: Center(
             child: Image.asset(
-              'assets/images/josler_logo.jpeg',
+              'assets/images/joslerBlack.png',
               width: 220,
               height: 220,
             ),
