@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
+import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/location_of_pipeUG.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakUG.dart';
 
 class DiameterOfPipelineUGService extends StatelessWidget {
@@ -41,7 +42,7 @@ Widget build(BuildContext context) {
                     onPressed: () {
                       // Add your onPressed functionality here
                       print('Button pressed: $type');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakUG()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LocationOfPipeUG()));
                     },
                     color: Color(0xFFFFC604),
                     shape: RoundedRectangleBorder(

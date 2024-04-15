@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakUG.dart';
 
+import 'location_of_pipeUG.dart';
+
 class DiameterOfPipelineUGDistribution extends StatelessWidget {
   const DiameterOfPipelineUGDistribution({Key? key}) : super(key: key);
 
@@ -44,7 +46,7 @@ class DiameterOfPipelineUGDistribution extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SourceOfLeakUG()));
+                                builder: (context) => LocationOfPipeUG()));
                       },
                       color: Color(0xFFFFC604),
                       shape: RoundedRectangleBorder(

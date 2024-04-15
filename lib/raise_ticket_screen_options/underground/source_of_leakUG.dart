@@ -37,7 +37,7 @@ Widget build(BuildContext context) {
                 child: MaterialButton(
                   onPressed: () {
                     print('Button pressed: $type');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LocationOfPipeUG()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => LocationOfPipeUG()));
                   },
                   color: Color(0xFFFFC604),
                   shape: RoundedRectangleBorder(

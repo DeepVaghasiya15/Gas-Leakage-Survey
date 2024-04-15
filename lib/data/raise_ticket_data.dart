@@ -31,7 +31,7 @@ List<String> leakFirstDetectedThroughIcon = [
 final List<String> pipelineUG = [
   'MDPE',
   'SS',
-  'GE',
+  'GI',
 ];
 List<String> pipelineUGIcon = [
   'assets/images/MDPE.png',
@@ -39,7 +39,7 @@ List<String> pipelineUGIcon = [
   'assets/images/GE.png',
 ];
 final List<String> pipelineAG = [
-  'GE',
+  'GI',
 ];
 List<String> pipelineAGIcon = [
   'assets/images/GE.png',

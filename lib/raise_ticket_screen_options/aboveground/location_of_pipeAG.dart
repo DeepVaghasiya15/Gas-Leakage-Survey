@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/cover_of_pipeline.dart';
+import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/leak_grading.dart';
 
 class LocationOfPipeAG extends StatelessWidget {
   const LocationOfPipeAG({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ Widget build(BuildContext context) {
                   onPressed: () {
                     // Add your onPressed functionality here
                     print('Button pressed: $type');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CoverOfPipeline()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LeakGrading()));
                   },
                   color: Color(0xFFFFC604),
                   shape: RoundedRectangleBorder(

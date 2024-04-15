@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _getCurrentLocation();
 
     if (widget.isSurveyInProgress) {
-      _startRecording(); // Resume recording if survey is in progress
+      _startRecording();
       _startLocationUpdates();
     }
     // _printCurrentPosition();
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
 
       setState(() {
         _currentPosition = position;
@@ -102,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onError: (error) => print("Error in location updates: $error"),
     );
   }
+
 
   void _stopLocationUpdates() {
     _positionStreamSubscription?.cancel();
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         _currentPosition!.latitude,
                         _currentPosition!.longitude,
                       ),
-                      zoom: 25.0,
+                      zoom: 19.0,
                     ),
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
