@@ -33,7 +33,8 @@ Widget build(BuildContext context) {
                   (index) {
                 String type = pressureOfPipelineAGNumber[index];
                 String otherArray = pressureOfPipelineAG[
-                index]; // Assuming you have another array to pair with each text
+                index];
+                Color buttonColor = index == 0 ? Colors.red : Color(0xFFFFC604);
 
                 return Padding(
                   padding: EdgeInsets.all(6.0),
@@ -43,7 +44,7 @@ Widget build(BuildContext context) {
                       print('Button pressed: $type');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineDistributionAG()));
                     },
-                    color: Color(0xFFFFC604),
+                    color: buttonColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -32,7 +32,8 @@ Widget build(BuildContext context) {
               leakGrading.length,
                   (index) {
                 String type = leakGrading[index];
-                String otherArray = leakGradingNumber[index]; // Assuming you have another array to pair with each text
+                String otherArray = leakGradingNumber[index];
+                Color buttonColor = index == 0 ? Colors.red : Color(0xFFFFC604);
 
                 return Padding(
                   padding: EdgeInsets.all(6.0),
@@ -45,7 +46,7 @@ Widget build(BuildContext context) {
                         MaterialPageRoute(builder: (context) => FormFill()),
                       );
                     },
-                    color: Color(0xFFFFC604),
+                    color: buttonColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
