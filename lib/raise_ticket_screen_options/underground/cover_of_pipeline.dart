@@ -15,6 +15,18 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Text("Raise Ticket"),
       backgroundColor: Color(0xFFFFC604),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          if (selectedOptionArray.isNotEmpty) {
+            // Remove the last item from selectedOptionArray
+            selectedOptionArray.removeLast();
+            print(selectedOptionArray);
+          }
+          // Pop the current route from the navigation stack
+          Navigator.pop(context);
+        },
+      ),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top:50.0,right: 20,left: 20),
@@ -42,6 +54,8 @@ Widget build(BuildContext context) {
                   onPressed: () {
                     // Add your onPressed functionality here
                     print('Button pressed: $type');
+                    selectedOptionArray.add('$type');
+                    print(selectedOptionArray);
                     // if (selectedOption == 'Underground') {
                     //   print('Underground selected');
                     //   Navigator.push(context, MaterialPageRoute(builder: (context) => SourceOfLeakageAfterDiggingUG()));

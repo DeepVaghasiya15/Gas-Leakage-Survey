@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/cover_of_pipeline.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+
 class LocationOfPipeUG extends StatelessWidget {
   const LocationOfPipeUG({Key? key}) : super(key: key);
 
@@ -11,6 +13,18 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Text("Raise Ticket"),
       backgroundColor: Color(0xFFFFC604),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          if (selectedOptionArray.isNotEmpty) {
+            // Remove the last item from selectedOptionArray
+            selectedOptionArray.removeLast();
+            print(selectedOptionArray);
+          }
+          // Pop the current route from the navigation stack
+          Navigator.pop(context);
+        },
+      ),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top:40.0,right: 20,left: 20),
@@ -38,6 +52,9 @@ Widget build(BuildContext context) {
                   onPressed: () {
                     // Add your onPressed functionality here
                     print('Button pressed: $type');
+                    selectedOptionArray.add('$type');
+                    print(selectedOptionArray);
+
                     Navigator.push(context, MaterialPageRoute(builder: (context) => CoverOfPipeline()));
 
                   },

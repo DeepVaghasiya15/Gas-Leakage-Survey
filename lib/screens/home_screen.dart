@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isPaused = true;
       _stopLocationUpdates(); // Pause location updates
-      _polylineTimer?.cancel(); // Pause polyline updates
+      // _polylineTimer?.cancel(); // Pause polyline updates
     });
   }
 
@@ -203,13 +203,13 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isPaused = false;
       _startLocationUpdates(); // Resume location updates
-      _polylineTimer?.cancel(); // Cancel previous timer if exists
-      _polylineTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-        // Resume polyline updates
-        if (!_isPaused) {
-          _updatePolylines();
-        }
-      });
+      // _polylineTimer?.cancel(); // Cancel previous timer if exists
+      // _polylineTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      //   // Resume polyline updates
+      //   // if (!_isPaused) {
+      //   //   _updatePolylines();
+      //   // }
+      // });
       print('Recording Resumed');
     });
   }
@@ -450,6 +450,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fit: FlexFit.tight,
                           child: ElevatedButton(
                             onPressed: () {
+                              selectedOptionArray.clear();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

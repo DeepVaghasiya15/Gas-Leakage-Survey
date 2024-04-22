@@ -3,6 +3,8 @@ import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/pipelineUG.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/pipeline_distributionUG.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+
 class PressureOfPipelineUG extends StatelessWidget {
   const PressureOfPipelineUG({Key? key}) : super(key: key);
 
@@ -12,6 +14,18 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Text("Raise Ticket"),
       backgroundColor: Color(0xFFFFC604),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          if (selectedOptionArray.isNotEmpty) {
+            // Remove the last item from selectedOptionArray
+            selectedOptionArray.removeLast();
+            print(selectedOptionArray);
+          }
+          // Pop the current route from the navigation stack
+          Navigator.pop(context);
+        },
+      ),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top: 40.0, right: 20, left: 20),
@@ -35,6 +49,7 @@ Widget build(BuildContext context) {
                 String type = pressureOfPipelineUGNumber[index];
                 String otherArray = pressureOfPipelineUG[index];
                 Color buttonColor = index == 0 ? Colors.red : Color(0xFFFFC604);
+                bool is110 = type == "110";
 
                 return Padding(
                   padding: EdgeInsets.all(6.0),
@@ -42,6 +57,14 @@ Widget build(BuildContext context) {
                     onPressed: () {
                       // Add your onPressed functionality here
                       print('Button pressed: $type');
+                      // selectedOptionArray.add('$type Bar');
+                      if (is110) {
+                        selectedOptionArray.add('$type m Bar');
+                      } else {
+                        selectedOptionArray.add('$type Bar');
+                      }
+                      print(selectedOptionArray);
+
                       Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineDistributionUG()));
                     },
                     color: buttonColor,

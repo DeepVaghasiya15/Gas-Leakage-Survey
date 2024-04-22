@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/leak_first_detected_through.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+
 class ConsumerType extends StatelessWidget {
   const ConsumerType({Key? key}) : super(key: key);
 
@@ -11,6 +13,18 @@ class ConsumerType extends StatelessWidget {
       appBar: AppBar(
         title: Text("Raise Ticket"),
         backgroundColor: Color(0xFFFFC604),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (selectedOptionArray.isNotEmpty) {
+              // Remove the last item from selectedOptionArray
+              selectedOptionArray.removeLast();
+              print(selectedOptionArray);
+            }
+            // Pop the current route from the navigation stack
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top:100.0,right: 20,left: 20),
@@ -37,6 +51,8 @@ class ConsumerType extends StatelessWidget {
                     onPressed: () {
                       // Add your onPressed functionality here
                       print('Button pressed: $type');
+                      selectedOptionArray.add('$type');
+                      print(selectedOptionArray);
                       // You can navigate or perform any other action here
                       Navigator.push(
                         context,

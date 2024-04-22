@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakUG.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
 import 'location_of_pipeUG.dart';
 
 class DiameterOfPipelineUGDistribution extends StatelessWidget {
@@ -13,6 +14,18 @@ class DiameterOfPipelineUGDistribution extends StatelessWidget {
       appBar: AppBar(
         title: Text("Raise Ticket"),
         backgroundColor: Color(0xFFFFC604),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (selectedOptionArray.isNotEmpty) {
+              // Remove the last item from selectedOptionArray
+              selectedOptionArray.removeLast();
+              print(selectedOptionArray);
+            }
+            // Pop the current route from the navigation stack
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 60.0, right: 20, left: 20),
@@ -43,6 +56,9 @@ class DiameterOfPipelineUGDistribution extends StatelessWidget {
                       onPressed: () {
                         // Add your onPressed functionality here
                         print('Button pressed: $type');
+                        selectedOptionArray.add('$type mm');
+                        print(selectedOptionArray);
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(

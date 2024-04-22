@@ -3,6 +3,8 @@ import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/location_of_pipeAG.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/probable_cause_of_leak_after_diggingAG.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+
 class SourceOfLeakAG extends StatelessWidget {
   const SourceOfLeakAG({Key? key}) : super(key: key);
 
@@ -12,6 +14,18 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Text("Raise Ticket"),
       backgroundColor: Color(0xFFFFC604),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          if (selectedOptionArray.isNotEmpty) {
+            // Remove the last item from selectedOptionArray
+            selectedOptionArray.removeLast();
+            print(selectedOptionArray);
+          }
+          // Pop the current route from the navigation stack
+          Navigator.pop(context);
+        },
+      ),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top:50,right: 20,left: 20),
@@ -38,6 +52,8 @@ Widget build(BuildContext context) {
                 child: MaterialButton(
                   onPressed: () {
                     print('Button pressed: $type');
+                    selectedOptionArray.add('$type');
+                    print(selectedOptionArray);
                     Navigator.push(context, MaterialPageRoute(builder: (context) => LocationOfPipeAG()));
                   },
                   color: Color(0xFFFFC604),

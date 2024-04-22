@@ -7,6 +7,8 @@ import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
 
+import '../screens/raise_ticket_screen_options.dart';
+
 
 class FormFill extends StatefulWidget {
   const FormFill({Key? key}) : super(key: key);
@@ -18,6 +20,12 @@ class FormFill extends StatefulWidget {
 class _FormFillState extends State<FormFill> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  Map<String, String> selectedOptionsDictionary = {};
+
+  final mainAreaController = TextEditingController();
+  final subAreaController = TextEditingController();
+  final dpIrFirstController = TextEditingController();
+  final dpIrBarController = TextEditingController();
 
   @override
   void initState() {
@@ -40,13 +48,29 @@ class _FormFillState extends State<FormFill> {
   void dispose() {
     // Dispose of the controller when the widget is disposed.
     _controller.dispose();
+    mainAreaController.dispose();
+    subAreaController.dispose();
+    dpIrFirstController.dispose();
+    dpIrBarController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Raise Ticket"),backgroundColor: Color(0xFFFFC604),),
+      appBar: AppBar(title: Text("Raise Ticket"),backgroundColor: Color(0xFFFFC604),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (selectedOptionArray.isNotEmpty) {
+              // Remove the last item from selectedOptionArray
+              selectedOptionArray.removeLast();
+              print(selectedOptionArray);
+            }
+            // Pop the current route from the navigation stack
+            Navigator.pop(context);
+          },
+        ),),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
@@ -61,6 +85,7 @@ class _FormFillState extends State<FormFill> {
               ),
               SizedBox(height: 40),
               TextField(
+                controller: mainAreaController,
                 cursorColor: Color(0xFF31363F),
                 decoration: InputDecoration(
                   labelText: 'Main Area',
@@ -82,6 +107,7 @@ class _FormFillState extends State<FormFill> {
               ),
               //Sub Area / Location
               TextField(
+                controller: subAreaController,
                 cursorColor: Color(0xFF31363F),
                 decoration: InputDecoration(
                   labelText: 'Sub Area / Location',
@@ -103,6 +129,7 @@ class _FormFillState extends State<FormFill> {
               ),
               //DP-IR Reading when leak detected first
               TextField(
+                controller: dpIrFirstController,
                 cursorColor: Color(0xFF31363F),
                 decoration: InputDecoration(
                   labelText: 'DP-IR Reading when leak detected first',
@@ -124,6 +151,7 @@ class _FormFillState extends State<FormFill> {
               ),
               //DP-IR Reading using Bar Hole probe
               TextField(
+                controller: dpIrBarController,
                 cursorColor: Color(0xFF31363F),
                 decoration: InputDecoration(
                   labelText: 'DP-IR Reading using Bar Hole probe',
@@ -187,10 +215,65 @@ class _FormFillState extends State<FormFill> {
                   ),
                 ],
               ),
+
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
+                  int count=0;
                   // Submit logic here
+                  selectedOptionArray.add(mainAreaController.text);
+                  selectedOptionArray.add(subAreaController.text);
+                  selectedOptionArray.add(dpIrFirstController.text);
+                  selectedOptionArray.add(dpIrBarController.text);
+
+                  print(selectedOptionArray);
+
+                  if (selectedOptionArray.isNotEmpty) {
+                    if (selectedOptionArray[0] == 'Underground') {
+                      selectedOptionsDictionary = {
+                        'TypeOfLeak': selectedOptionArray[0],
+                        'ConsumerType': selectedOptionArray[1],
+                        'LeakFirstDetectedThrough': selectedOptionArray[2],
+                        'Pipeline': selectedOptionArray[3],
+                        'PressureOfPipeline': selectedOptionArray[4],
+                        'PipelineDistributionType': selectedOptionArray[5],
+                        'DiameterOfPipeline': selectedOptionArray[6],
+                        'LocationOfPipe': selectedOptionArray[7],
+                        'CoverOfPipeline': selectedOptionArray[8],
+                        'LeakGrading': selectedOptionArray[9],
+                        'MainArea': selectedOptionArray[10],
+                        'SubArea': selectedOptionArray[11],
+                        'DPIR-ReadingFirst': selectedOptionArray[12],
+                        'DPIR-BarHole': selectedOptionArray[13],
+                      };
+                    } else {
+                      selectedOptionsDictionary = {
+                        'TypeOfLeak': selectedOptionArray[0],
+                        'ConsumerType': selectedOptionArray[1],
+                        'LeakFirstDetectedThrough': selectedOptionArray[2],
+                        'Pipeline': selectedOptionArray[3],
+                        'PressureOfPipeline': selectedOptionArray[4],
+                        'PipelineDistributionType': selectedOptionArray[5],
+                        'DiameterOfPipeline': selectedOptionArray[6],
+                        'SourceOfLeak': selectedOptionArray[7],
+                        'LocationOfPipe': selectedOptionArray[8],
+                        'LeakGrading': selectedOptionArray[9],
+                        'MainArea': selectedOptionArray[10],
+                        'SubArea': selectedOptionArray[11],
+                        'DPIR-ReadingFirst': selectedOptionArray[12],
+                        'DPIR-BarHole': selectedOptionArray[13],
+                      };
+                    }
+                  }
+                  print(selectedOptionsDictionary);
+                  Navigator.popUntil(context, (route) {
+                    // Increment the counter when encountering a non-first route
+                    if (!route.isFirst) {
+                      count++;
+                    }
+                    // Return true when the counter reaches 2
+                    return count == 12;
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   textStyle: TextStyle(fontSize: 24),

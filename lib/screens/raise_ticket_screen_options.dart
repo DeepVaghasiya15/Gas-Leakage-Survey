@@ -7,7 +7,7 @@ import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/consumer_type.dart';
 
 String? selectedOption;
-
+List<String> selectedOptionArray = [];
 // class RaiseTicketScreenOptions extends StatefulWidget {
 //   const RaiseTicketScreenOptions({Key? key}) : super(key: key);
 //
@@ -15,7 +15,7 @@ String? selectedOption;
 //   State<RaiseTicketScreenOptions> createState() => _RaiseTicketScreenOptionsState();
 // }
 class RaiseTicketScreenOptions extends StatefulWidget {
-  final bool isSurveyInProgress; // New parameter
+  final bool isSurveyInProgress;
 
   const RaiseTicketScreenOptions({Key? key, required this.isSurveyInProgress})
       : super(key: key);
@@ -61,12 +61,22 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
           title: Text("Raise Ticket"),
           backgroundColor: Color(
             0xFFFFC604),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (selectedOptionArray.isNotEmpty) {
+              // Remove the last item from selectedOptionArray
+              selectedOptionArray.removeLast();
+              print(selectedOptionArray);
+            }
+            // Pop the current route from the navigation stack
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.splitscreen), // You can use any icon here
             onPressed: () {
-              // Add your onPressed functionality here
-              // For example, navigate to another screen
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RaiseTicket()),
@@ -74,15 +84,6 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
             },
           ),
         ],
-
-        // actions: [
-        //   SwitchScreen(
-        //     initialSwitchValue: true, // Initially on
-        //     onSwitchChanged: (value) {
-        //       // Do nothing here as the switch state management is handled by RaisedTicket screen
-        //     },
-        //   ),
-        // ],
           ),
       body: Column(
         children: [
@@ -112,8 +113,10 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                             onPressed: () {
                               setState(() {
                                 selectedOption = 'Underground';
+                                selectedOptionArray.add(selectedOption!);
                               });
                               createTicket(selectedOption!);
+                              print('selected option is : $selectedOption');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -152,8 +155,10 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                             onPressed: () {
                               setState(() {
                                 selectedOption = 'Above Ground';
+                                selectedOptionArray.add(selectedOption!);
                               });
                               createTicket(selectedOption!);
+                              print('selected option is : $selectedOption');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

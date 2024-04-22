@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:gas_leakage_survey/screens/login/login_screen.dart';
-import 'package:gas_leakage_survey/screens/login/login_screen_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {

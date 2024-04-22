@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/form_fill.dart';
 
+import '../../screens/raise_ticket_screen_options.dart';
+
 class LeakGrading extends StatelessWidget {
   const LeakGrading({Key? key}) : super(key: key);
 
@@ -11,6 +13,18 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Text("Raise Ticket"),
       backgroundColor: Color(0xFFFFC604),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          if (selectedOptionArray.isNotEmpty) {
+            // Remove the last item from selectedOptionArray
+            selectedOptionArray.removeLast();
+            print(selectedOptionArray);
+          }
+          // Pop the current route from the navigation stack
+          Navigator.pop(context);
+        },
+      ),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top: 100.0, right: 20, left: 20),
@@ -35,12 +49,16 @@ Widget build(BuildContext context) {
                 String otherArray = leakGradingNumber[index];
                 Color buttonColor = index == 0 ? Colors.red : Color(0xFFFFC604);
 
+                int grade = index + 1;
+
                 return Padding(
                   padding: EdgeInsets.all(6.0),
                   child: MaterialButton(
                     onPressed: () {
                       // Add your onPressed functionality here
                       print('Button pressed: $type');
+                      selectedOptionArray.add('Grade-$grade');
+                      print(selectedOptionArray);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => FormFill()),
