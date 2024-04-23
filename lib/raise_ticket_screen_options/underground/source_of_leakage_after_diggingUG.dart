@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/probable_cause_of_leak_after_diggingUG.dart';
-
+import 'package:flutter/services.dart';
 class SourceOfLeakageAfterDiggingUG extends StatelessWidget {
   const SourceOfLeakageAfterDiggingUG({Key? key}) : super(key: key);
 
@@ -36,6 +36,7 @@ Widget build(BuildContext context) {
                 padding: EdgeInsets.all(6.0),
                 child: MaterialButton(
                   onPressed: () {
+                    HapticFeedback.vibrate();
                     // Add your onPressed functionality here
                     print('Button pressed: $type');
                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProbableCauseOfLeakAfterDiggingUG()));

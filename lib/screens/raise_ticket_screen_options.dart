@@ -30,34 +30,6 @@ class RaiseTicketScreenOptions extends StatefulWidget {
 class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
   @override
   Widget build(BuildContext context) {
-    Future<void> createTicket(String selectedOption) async {
-      try {
-        final response = await http.post(
-          Uri.parse('https://picarro-backend.onrender.com/tickets/create'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, String>{
-            'type_of_Leak': selectedOption,
-          }),
-        );
-
-        if (response.statusCode == 200) {
-          // If the server returns a 200 OK response, it means the ticket was created successfully.
-          print('Ticket created successfully');
-          // Optionally, you can navigate to the next screen or perform any other action here.
-        } else {
-          // If the server returns an error response, print the response body for debugging.
-          print('Failed to create ticket. Server returned: ${response.body}');
-          // Optionally, you can show an error message to the user.
-        }
-      } catch (e) {
-        // If an exception occurs during the HTTP request, print the error for debugging.
-        print('Error creating ticket: $e');
-        // Optionally, you can show an error message to the user.
-      }
-    }
-
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
@@ -119,7 +91,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                 selectedOption = 'Underground';
                                 selectedOptionArray.add(selectedOption!);
                               });
-                              createTicket(selectedOption!);
+                              // createTicket(selectedOption!);
                               print('selected option is : $selectedOption');
                               Navigator.push(
                                   context,
@@ -162,7 +134,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                 selectedOption = 'Above Ground';
                                 selectedOptionArray.add(selectedOption!);
                               });
-                              createTicket(selectedOption!);
+                              // createTicket(selectedOption!);
                               print('selected option is : $selectedOption');
                               Navigator.push(
                                   context,

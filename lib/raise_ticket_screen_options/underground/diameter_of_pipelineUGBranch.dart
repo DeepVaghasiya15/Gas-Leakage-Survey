@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakUG.dart';
-
+import 'package:flutter/services.dart';
 import '../../screens/raise_ticket_screen_options.dart';
 import 'location_of_pipeUG.dart';
 
@@ -56,6 +56,7 @@ Widget build(BuildContext context) {
                   child: MaterialButton(
                     onPressed: () {
                       // Add your onPressed functionality here
+                      HapticFeedback.vibrate();
                       print('Button pressed: $type');
                       selectedOptionArray.add('$type mm');
                       print(selectedOptionArray);

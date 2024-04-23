@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/leak_grading.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/source_of_leakage_after_diggingUG.dart';
-
+import 'package:flutter/services.dart';
 import '../../screens/raise_ticket_screen_options.dart';
 import '../aboveground/source_of_leakage_afterDiggingAG.dart';
 
@@ -53,7 +53,7 @@ Widget build(BuildContext context) {
                 padding: EdgeInsets.all(6.0),
                 child: MaterialButton(
                   onPressed: () {
-                    // Add your onPressed functionality here
+                    HapticFeedback.vibrate();
                     print('Button pressed: $type');
                     selectedOptionArray.add('$type');
                     print(selectedOptionArray);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  TextEditingController _phoneController = TextEditingController(text: "1234657890");
+  TextEditingController _phoneController = TextEditingController(text: "1234567890");
   TextEditingController _passwordController = TextEditingController(text: "123");
   // final _phoneController = TextEditingController();
   // final _passwordController = TextEditingController();
@@ -200,6 +201,7 @@ class _LogInNewState extends State<LogInNew> {
                   child: MaterialButton(
                     // onPressed: _login,
                     onPressed: () {
+                      HapticFeedback.vibrate();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
                     },
                     color: Color(0xFFEFFF00),

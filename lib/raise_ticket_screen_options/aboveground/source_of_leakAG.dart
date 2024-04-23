@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/location_of_pipeAG.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/probable_cause_of_leak_after_diggingAG.dart';
-
+import 'package:flutter/services.dart';
 import '../../screens/raise_ticket_screen_options.dart';
 
 class SourceOfLeakAG extends StatelessWidget {
@@ -52,6 +52,7 @@ Widget build(BuildContext context) {
                 padding: EdgeInsets.all(6.0),
                 child: MaterialButton(
                   onPressed: () {
+                    HapticFeedback.vibrate();
                     print('Button pressed: $type');
                     selectedOptionArray.add('$type');
                     print(selectedOptionArray);

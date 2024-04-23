@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/leak_first_detected_through.dart';
 
@@ -51,6 +52,7 @@ class ConsumerType extends StatelessWidget {
                   child: MaterialButton(
                     onPressed: () {
                       // Add your onPressed functionality here
+                      HapticFeedback.vibrate();
                       print('Button pressed: $type');
                       selectedOptionArray.add('$type');
                       print(selectedOptionArray);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/aboveground/pipeline_distributionAG.dart';
-
+import 'package:flutter/services.dart';
 import '../../screens/raise_ticket_screen_options.dart';
 
 class PressureOfPipelineAG extends StatelessWidget {
@@ -56,6 +56,7 @@ Widget build(BuildContext context) {
                   padding: EdgeInsets.all(6.0),
                   child: MaterialButton(
                     onPressed: () {
+                      HapticFeedback.vibrate();
                       // Add your onPressed functionality here
                       print('Button pressed: $type');
                       if (mBar) {

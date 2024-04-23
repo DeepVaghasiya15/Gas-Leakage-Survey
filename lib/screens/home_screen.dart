@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gas_leakage_survey/data/polyline_data.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
@@ -415,12 +417,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Flexible(
-                          fit: FlexFit.tight,
+                        Expanded(
+                          // fit: FlexFit.tight,
+                          flex: 4,
                           child: ElevatedButton.icon(
                             onPressed: _stopRecording,
-                            icon: Icon(Icons.stop, color: Colors.black),
-                            label: Text('Stop', style: TextStyle(color: Colors.black),
+                            icon: Icon(Icons.stop, color: Colors.black,size: 22,),
+                            label: Text('Stop', style: TextStyle(color: Colors.black,fontSize: 14),
                               textAlign: TextAlign.center,),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
@@ -432,17 +435,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Flexible(
-                          fit: FlexFit.loose,
+                        Expanded(
+                          // fit: FlexFit.tight,
+                          flex: 5,
                           child: ElevatedButton.icon(
                             onPressed: _togglePauseResume,
                             icon: Icon(
                               _isPaused ? Icons.play_arrow : Icons.pause,
                               color: Colors.black,
+                              size: 23,
                             ),
                             label: Text(
                               _isPaused ? 'Resume' : 'Pause',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black,fontSize: 14),
                               textAlign: TextAlign.center,
                             ),
                             style: ElevatedButton.styleFrom(
@@ -455,8 +460,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Flexible(
-                          fit: FlexFit.tight,
+                        Expanded(
+                          // fit: FlexFit.tight,
+                          flex: 4,
                           child: ElevatedButton(
                             onPressed: () {
                               selectedOptionArray.clear();

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
@@ -25,6 +27,8 @@ class _FormFillState extends State<FormFill> {
   final dpIrFirstController = TextEditingController();
   final dpIrBarController = TextEditingController();
 
+  get http => null;
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +38,7 @@ class _FormFillState extends State<FormFill> {
   Future<void> initializeCamera() async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
-    _controller = CameraController(firstCamera, ResolutionPreset.high);
+    _controller = CameraController(firstCamera, ResolutionPreset.medium);
     _initializeControllerFuture = _controller.initialize();
   }
 
@@ -50,6 +54,37 @@ class _FormFillState extends State<FormFill> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> createTicket(String selectedOption) async {
+      try {
+        final response = await http.post(
+          Uri.parse('https://picarro-backend.onrender.com/tickets/create'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'type_of_Leak': selectedOptionArray[0],
+            'consumer_type' : selectedOptionArray[1],
+            'leak_first_detected_through': selectedOptionArray[2],
+            'pipeline' : selectedOptionArray[3],
+            'pressure_of_pipeline': selectedOptionArray[4],
+            'pipeline_distribution_type' : selectedOptionArray[5],
+            'diameter_of_pipeline': selectedOptionArray[6],
+            'location_of_pipe' : selectedOptionArray[7],
+            'cover_of_pipeline': selectedOptionArray[8],
+            'leak_grading' : selectedOptionArray[9],
+
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          print('Ticket created successfully');
+        } else {
+          print('Failed to create ticket. Server returned: ${response.body}');
+        }
+      } catch (e) {
+        print('Error creating ticket: $e');
+      }
+    }
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
@@ -187,6 +222,7 @@ class _FormFillState extends State<FormFill> {
                       minimumSize: Size(50, 50),
                     ),
                     onPressed: () {
+                      HapticFeedback.vibrate();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -210,6 +246,7 @@ class _FormFillState extends State<FormFill> {
                       minimumSize: Size(50, 50),
                     ),
                     onPressed: () {
+                      HapticFeedback.vibrate();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -225,12 +262,15 @@ class _FormFillState extends State<FormFill> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
+                  HapticFeedback.vibrate();
                   int count = 0;
                   // Submit logic here
                   selectedOptionArray.add(mainAreaController.text);
                   selectedOptionArray.add(subAreaController.text);
                   selectedOptionArray.add(dpIrFirstController.text);
                   selectedOptionArray.add(dpIrBarController.text);
+
+                  // createTicket(selectedOptionArray as String);
 
                   print(selectedOptionArray);
 
@@ -337,6 +377,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
             size: 50,
           ),
           onPressed: () async {
+            HapticFeedback.vibrate();
             try {
               final image = await widget.controller.takePicture();
               setState(() {
@@ -493,6 +534,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
+              HapticFeedback.vibrate();
               if (!isRecording) {
                 try {
                   await widget.controller.startVideoRecording();
