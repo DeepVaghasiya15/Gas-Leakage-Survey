@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/raise_ticket_screen_options/underground/consumer_type.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:flutter/services.dart';
 
 String? selectedOption;
 List<String> selectedOptionArray = [];
@@ -57,10 +59,10 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
     }
 
     return Scaffold(
+      backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
           title: Text("Raise Ticket"),
-          backgroundColor: Color(
-            0xFFFFC604),
+          backgroundColor: Color(0xFFEFFF00),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -101,7 +103,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                     ),
                     Text(DataFields[0],
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
+                            fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white)),
                     SizedBox(height: 40),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -111,6 +113,8 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                           height: 130, // Set the height of the buttons
                           child: MaterialButton(
                             onPressed: () {
+                              // FlutterVibration.vibrate();
+                              HapticFeedback.vibrate();
                               setState(() {
                                 selectedOption = 'Underground';
                                 selectedOptionArray.add(selectedOption!);
@@ -123,7 +127,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                       builder: (context) =>
                                           const ConsumerType()));
                             },
-                            color: Color(0xFFFFC604),
+                            color: Color(0xFFEFFF00),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -153,6 +157,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                           height: 130, // Set the height of the buttons
                           child: MaterialButton(
                             onPressed: () {
+                              HapticFeedback.vibrate();
                               setState(() {
                                 selectedOption = 'Above Ground';
                                 selectedOptionArray.add(selectedOption!);
@@ -165,7 +170,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                       builder: (context) =>
                                           const ConsumerType()));
                             },
-                            color: Color(0xFFFFC604),
+                            color: Color(0xFFEFFF00),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

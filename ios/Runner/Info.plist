@@ -12,6 +12,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string> App want's to access your location to get address.</string>
 
+	<key>NSCameraUsageDescription</key>
+    <string>Your message to the user explaining why the app needs camera access.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Your message to the user explaining why the app needs microphone access.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

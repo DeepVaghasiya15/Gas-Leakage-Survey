@@ -10,9 +10,10 @@ class PipelineUG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: Color(0xFF292C3D),
     appBar: AppBar(
       title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFFFC604),
+      backgroundColor: Color(0xFFEFFF00),
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {
@@ -33,7 +34,7 @@ Widget build(BuildContext context) {
         children: [
           Text(
             DataFields[3],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 170),
@@ -58,7 +59,7 @@ Widget build(BuildContext context) {
 
                     Navigator.push(context, MaterialPageRoute(builder: (context) => PressureOfPipelineUG()));
                   },
-                  color: Color(0xFFFFC604),
+                  color: Color(0xFFEFFF00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

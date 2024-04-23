@@ -10,7 +10,7 @@ Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFFFC604),
+      backgroundColor: Color(0xFFEFFF00),
     ),
     body: Padding(
       padding: const EdgeInsets.only(top:40.0,right: 20,left: 20),
@@ -40,7 +40,7 @@ Widget build(BuildContext context) {
                     print('Button pressed: $type');
                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProbableCauseOfLeakAfterDiggingUG()));
                   },
-                  color: Color(0xFFFFC604),
+                  color: Color(0xFFEFFF00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

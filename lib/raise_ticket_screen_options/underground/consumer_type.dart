@@ -10,9 +10,10 @@ class ConsumerType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
         title: Text("Raise Ticket"),
-        backgroundColor: Color(0xFFFFC604),
+        backgroundColor: Color(0xFFEFFF00),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -33,7 +34,7 @@ class ConsumerType extends StatelessWidget {
           children: [
             Text(
               DataFields[1], // Replace with your text or use DataFields[0]
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             ),
             SizedBox(height: 70),
             GridView.count(
@@ -61,7 +62,7 @@ class ConsumerType extends StatelessWidget {
                         ),
                       );
                     },
-                    color: Color(0xFFFFC604),
+                    color: Color(0xFFEFFF00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

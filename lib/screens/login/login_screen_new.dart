@@ -88,7 +88,7 @@ class _LogInNewState extends State<LogInNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFF222831),
+      backgroundColor: Color(0xFF292C3D),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -114,7 +114,7 @@ class _LogInNewState extends State<LogInNew> {
                       "Login",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 24,
                       ),
                     ),
@@ -129,7 +129,7 @@ class _LogInNewState extends State<LogInNew> {
                       "Please sign in to continue.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 14,
                       ),
                     ),
@@ -141,19 +141,19 @@ class _LogInNewState extends State<LogInNew> {
                   child: TextField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
-                      labelStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(Icons.phone, color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.phone, color: Colors.white),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: Color(0xFFEFFF00)),
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Color(0xFF393B50),
                     ),
                   ),
                 ),
@@ -164,16 +164,16 @@ class _LogInNewState extends State<LogInNew> {
                     builder: (context, setState) {
                       return TextField(
                         controller: _passwordController,
-                        style: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.white),
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           labelText: 'Password',
-                          labelStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(Icons.lock_outline_rounded, color: Colors.black),
+                          labelStyle: const TextStyle(color: Colors.white),
+                          prefixIcon: const Icon(Icons.lock_outline_rounded, color: Colors.white),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _passwordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                             onPressed: () {
                               setState(() {
@@ -182,13 +182,13 @@ class _LogInNewState extends State<LogInNew> {
                             },
                           ),
                           border: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                            borderSide: BorderSide(color: Color(0xFFEFFF00)),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                            borderSide: BorderSide(color: Color(0xFFEFFF00)),
                           ),
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Color(0xFF393B50),
                         ),
                       );
                     },
@@ -202,7 +202,7 @@ class _LogInNewState extends State<LogInNew> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
                     },
-                    color: Color(0xFFFFC604),
+                    color: Color(0xFFEFFF00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

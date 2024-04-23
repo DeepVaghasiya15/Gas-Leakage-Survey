@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/login/login_screen.dart';
+import 'package:gas_leakage_survey/screens/login/login_screen_new.dart';
 import 'package:gas_leakage_survey/screens/side_drawer/drawer_screens/history_screen.dart';
 
 class DrawerHomeScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
       child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         DrawerHeader(
           decoration: BoxDecoration(
-            color: Color(0xFFFFC604),
+            color: Color(0xFFEFFF00),
           ),
           child: Center(
             child: Image.asset(
@@ -108,7 +109,7 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const LogIn()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInNew()));
             },
           ),
         )

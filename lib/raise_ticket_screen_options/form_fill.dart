@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -8,7 +7,6 @@ import 'package:video_player/video_player.dart';
 import 'dart:io';
 
 import '../screens/raise_ticket_screen_options.dart';
-
 
 class FormFill extends StatefulWidget {
   const FormFill({Key? key}) : super(key: key);
@@ -34,19 +32,14 @@ class _FormFillState extends State<FormFill> {
   }
 
   Future<void> initializeCamera() async {
-    // Obtain a list of the available cameras on the device.
     final cameras = await availableCameras();
-    // Get the first camera from the list.
     final firstCamera = cameras.first;
-    // Initialize the controller
-    _controller = CameraController(firstCamera, ResolutionPreset.medium);
-    // Next, initialize the controller. This returns a Future
+    _controller = CameraController(firstCamera, ResolutionPreset.high);
     _initializeControllerFuture = _controller.initialize();
   }
 
   @override
   void dispose() {
-    // Dispose of the controller when the widget is disposed.
     _controller.dispose();
     mainAreaController.dispose();
     subAreaController.dispose();
@@ -58,7 +51,10 @@ class _FormFillState extends State<FormFill> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Raise Ticket"),backgroundColor: Color(0xFFFFC604),
+      backgroundColor: Color(0xFF292C3D),
+      appBar: AppBar(
+        title: Text("Raise Ticket"),
+        backgroundColor: Color(0xFFEFFF00),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -70,7 +66,8 @@ class _FormFillState extends State<FormFill> {
             // Pop the current route from the navigation stack
             Navigator.pop(context);
           },
-        ),),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
@@ -80,7 +77,10 @@ class _FormFillState extends State<FormFill> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Fill this details..", // Replace with your text or use DataFields[0]
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               SizedBox(height: 40),
@@ -95,7 +95,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xFFFFC604),
+                      color: Color(0xFFEFFF00),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -117,7 +117,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xFFFFC604),
+                      color: Color(0xFFEFFF00),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -139,7 +139,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xFFFFC604),
+                      color: Color(0xFFEFFF00),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -161,7 +161,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xFFFFC604),
+                      color: Color(0xFFEFFF00),
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -176,9 +176,11 @@ class _FormFillState extends State<FormFill> {
                 children: [
                   ElevatedButton.icon(
                     icon: Icon(Icons.photo, color: Colors.black),
-                    label: Text('Photo', style: TextStyle(color: Colors.black), textAlign: TextAlign.center),
+                    label: Text('Photo',
+                        style: TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFFC604),
+                      backgroundColor: Color(0xFFEFFF00),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -188,7 +190,8 @@ class _FormFillState extends State<FormFill> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TakePictureScreen(controller: _controller),
+                          builder: (context) =>
+                              TakePictureScreen(controller: _controller),
                         ),
                       );
                     },
@@ -196,7 +199,9 @@ class _FormFillState extends State<FormFill> {
                   SizedBox(width: 20),
                   ElevatedButton.icon(
                     icon: Icon(Icons.video_collection, color: Colors.black),
-                    label: Text('Video', style: TextStyle(color: Colors.black), textAlign: TextAlign.center),
+                    label: Text('Video',
+                        style: TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
@@ -208,7 +213,8 @@ class _FormFillState extends State<FormFill> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TakeVideoScreen(controller: _controller),
+                          builder: (context) =>
+                              TakeVideoScreen(controller: _controller),
                         ),
                       );
                     },
@@ -219,7 +225,7 @@ class _FormFillState extends State<FormFill> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
-                  int count=0;
+                  int count = 0;
                   // Submit logic here
                   selectedOptionArray.add(mainAreaController.text);
                   selectedOptionArray.add(subAreaController.text);
@@ -299,7 +305,8 @@ class _FormFillState extends State<FormFill> {
 class TakePictureScreen extends StatefulWidget {
   final CameraController controller;
 
-  const TakePictureScreen({Key? key, required this.controller}) : super(key: key);
+  const TakePictureScreen({Key? key, required this.controller})
+      : super(key: key);
 
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
@@ -314,16 +321,21 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
       return Container();
     }
     return Scaffold(
+      backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
         title: Text('Take a picture'),
-        backgroundColor: Color(0xFFFFC604),
+        backgroundColor: Color(0xFFEFFF00),
       ),
       body: CameraPreview(widget.controller),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 30.0),
         child: IconButton(
-          icon: Icon(Icons.camera,size: 50,),
+          icon: Icon(
+            Icons.camera,
+            color: Colors.white,
+            size: 50,
+          ),
           onPressed: () async {
             try {
               final image = await widget.controller.takePicture();
@@ -333,7 +345,8 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PreviewScreen(imagePath: imagePath, videoPath: ''),
+                  builder: (context) =>
+                      PreviewScreen(imagePath: imagePath, videoPath: ''),
                 ),
               );
             } catch (e) {
@@ -343,49 +356,88 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         ),
       ),
     );
-
   }
 }
 
 class PreviewScreen extends StatelessWidget {
   final String imagePath;
 
-  const PreviewScreen({Key? key, required this.imagePath, required String videoPath}) : super(key: key);
+  const PreviewScreen(
+      {Key? key, required this.imagePath, required String videoPath})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Preview Image')),
+      backgroundColor: Color(0xFF292C3D),
+      appBar: AppBar(
+        title: Text(
+          'Preview Image',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xFF292C3D),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.file(File(imagePath)),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Proceed with the taken picture
-                },
-                child: Text('Use this'),
-              ),
-              SizedBox(width: 20),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   // Retake the picture
                   Navigator.pop(context);
                 },
-                child: Text('Take again'),
+                icon: Icon(Icons.refresh, color: Colors.black),
+                label: Text(
+                  'Take Again',
+                  style: TextStyle(color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: Size(50, 50),
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton.icon(
+                onPressed: () {
+                  int countPhoto = 0;
+                  Navigator.popUntil(context, (route) {
+                    if (!route.isFirst) {
+                      countPhoto++;
+                    }
+                    return countPhoto == 3;
+                  });
+                },
+                icon: Icon(Icons.check, color: Colors.black),
+                label: Text(
+                  'Proceed',
+                  style: TextStyle(color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: Size(50, 50),
+                ),
               ),
             ],
           ),
+          SizedBox(height: 10),
         ],
       ),
     );
   }
 }
-
 
 class TakeVideoScreen extends StatefulWidget {
   final CameraController controller;
@@ -401,6 +453,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   String videoPath = '';
   int recordingTimeSeconds = 0;
   late Timer recordingTimer;
+  bool isRed = false;
 
   @override
   void initState() {
@@ -413,26 +466,29 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
         });
       }
     });
-  }
-
-  @override
-  void dispose() {
-    // Dispose the recording timer
-    recordingTimer.cancel();
-    super.dispose();
+    widget.controller.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Record a video'),backgroundColor: Color(0xFFFFC604),),
+      backgroundColor: Color(0xFF292C3D),
+      appBar: AppBar(
+        title: Text('Record a video'),
+        backgroundColor: Color(0xFFEFFF00),
+      ),
       body: Column(
         children: [
           Expanded(child: CameraPreview(widget.controller)),
           SizedBox(height: 20),
           Text(
-            'Recording Time: ${_formatTime(recordingTimeSeconds)}',
-            style: TextStyle(fontSize: 16),
+            'Recording : ${_formatTime(recordingTimeSeconds)}',
+            style: TextStyle(fontSize: 16, color: Colors.white),
           ),
           SizedBox(height: 20),
           ElevatedButton(
@@ -442,25 +498,28 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
                   await widget.controller.startVideoRecording();
                   setState(() {
                     isRecording = true;
-                    recordingTimeSeconds = 0; // Reset recording time when starting a new recording
-                  }
-                  );
+                    recordingTimeSeconds =
+                        0; // Reset recording time when starting a new recording
+                  });
                 } catch (e) {
                   print('Error starting video recording: $e');
                 }
               } else {
                 try {
-                  final path = await widget.controller.stopVideoRecording();
-                  print('Stop video recording result: $path'); // Debugging statement
+                  final XFile recordedVideo =
+                      await widget.controller.stopVideoRecording();
+                  print(
+                      'Stop video recording result: ${recordedVideo.path}'); // Debugging statement
                   setState(() {
-                    videoPath = path as String;
+                    videoPath = recordedVideo.path;
                     isRecording = false;
                   });
-                  // Navigate to the preview screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PreviewScreen(videoPath: videoPath, imagePath: '',),
+                      builder: (context) => PreviewScreen2(
+                          videoFile: recordedVideo,
+                          controller: widget.controller),
                     ),
                   );
                 } catch (e) {
@@ -468,19 +527,12 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
                 }
               }
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                // Set different background colors for different states
-                if (states.contains(MaterialState.pressed)) {
-                  return Colors.red; // Color when pressed
-                }
-                return Colors.red; // Default color
-              }),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isRecording ? Colors.red : Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
+              minimumSize: Size(40, 40),
             ),
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -494,7 +546,9 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
               ),
             ),
           ),
-          SizedBox(height: 20,)
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
@@ -509,34 +563,108 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   }
 }
 
-class PreviewScreen2 extends StatelessWidget {
-  final String videoPath;
+class PreviewScreen2 extends StatefulWidget {
+  final XFile videoFile;
+  final CameraController controller;
 
-  const PreviewScreen2({Key? key, required this.videoPath}) : super(key: key);
+  const PreviewScreen2(
+      {Key? key, required this.videoFile, required this.controller})
+      : super(key: key);
+
+  @override
+  _PreviewScreen2State createState() => _PreviewScreen2State();
+}
+
+class _PreviewScreen2State extends State<PreviewScreen2> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.file(File(widget.videoFile.path))
+      ..initialize().then((_) {
+        setState(() {}); // Ensure the video is initialized and start playing
+        _controller.play();
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Preview')),
+      backgroundColor: Color(0xFF292C3D),
+      appBar: AppBar(
+        title: Text(
+          'Preview Video',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xFF292C3D),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Preview Video Here'),
-            VideoPlayer(VideoPlayerController.file(File(videoPath))),
+            _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : CircularProgressIndicator(), // Show a loader until video is initialized
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Proceed with the recorded video
-              },
-              child: Text('Proceed'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(
+                        context); // Navigate back to the recording screen
+                  },
+                  icon: Icon(Icons.refresh, color: Colors.black),
+                  label: Text(
+                    'Record Again',
+                    style: TextStyle(color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    minimumSize: Size(50, 50),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    int countVideo = 0;
+                    Navigator.popUntil(context, (route) {
+                      if (!route.isFirst) {
+                        countVideo++;
+                      }
+                      return countVideo == 3;
+                    });
+                  },
+                  icon: Icon(Icons.check, color: Colors.black),
+                  label: Text(
+                    'Proceed',
+                    style: TextStyle(color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    minimumSize: Size(50, 50),
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Navigate back to the recording screen
-              },
-              child: Text('Record Again'),
-            ),
+            SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),

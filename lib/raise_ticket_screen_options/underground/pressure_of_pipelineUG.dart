@@ -11,9 +11,10 @@ class PressureOfPipelineUG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: Color(0xFF292C3D),
     appBar: AppBar(
       title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFFFC604),
+      backgroundColor: Color(0xFFEFFF00),
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {
@@ -34,7 +35,7 @@ Widget build(BuildContext context) {
         children: [
           Text(
             DataFields[4],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 100),
@@ -48,7 +49,7 @@ Widget build(BuildContext context) {
                   (index) {
                 String type = pressureOfPipelineUGNumber[index];
                 String otherArray = pressureOfPipelineUG[index];
-                Color buttonColor = index == 0 ? Colors.red : Color(0xFFFFC604);
+                Color buttonColor = index == 0 ? Colors.red : Color(0xFFEFFF00);
                 bool is110 = type == "110";
 
                 return Padding(

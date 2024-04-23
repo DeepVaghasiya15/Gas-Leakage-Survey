@@ -56,10 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _getCurrentLocation();
 
     // Add the provided coordinates to _recordedLocations if there are any
-    List<Map<String, double>> providedCoordinates = polylineData;
-
-    _recordedLocations.addAll(providedCoordinates
-        .map((coord) => LatLng(coord['latitude']!, coord['longitude']!)));
+    // List<Map<String, double>> providedCoordinates = polylineData;
+    //
+    // _recordedLocations.addAll(providedCoordinates
+    //     .map((coord) => LatLng(coord['latitude']!, coord['longitude']!)));
 
     // List<LatLng> simplifiedPolyline = simplifyPolyline(_recordedLocations, 0.001);
     //
@@ -71,8 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //   width: 5,
     // ));
 
-    _updatePolylines();
-    _updatePolygons();
+    // _updatePolylines();
+    // _updatePolygons();
 
     if (widget.isSurveyInProgress) {
       _startRecording();
@@ -185,26 +185,32 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     _startLocationUpdates();
     _polylineTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      // _updatePolylines();
+      _updatePolylines();
+      _storedPolylines.add(List.from(_polylines) as Polyline);
     });
   }
 
   void _pauseRecording() {
     print("Recording paused");
+    _stopLocationUpdates();
+    _polylineTimer?.cancel();
     setState(() {
       _isPaused = true;
-      _stopLocationUpdates(); // Pause location updates
-      // _polylineTimer?.cancel(); // Pause polyline updates
+      _storedPolylines;
+      _polylines.clear();
     });
   }
 
   void _resumeRecording() {
     print("Recording resumed");
+    _startLocationUpdates(); // Resume location updates
+    // _polylineTimer?.cancel(); // Cancel previous timer if exists
+    _polylineTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _updatePolylines();
+      _storedPolylines.add(List.from(_polylines) as Polyline);
+    });
     setState(() {
       _isPaused = false;
-      _startLocationUpdates(); // Resume location updates
-      // _polylineTimer?.cancel(); // Cancel previous timer if exists
-      // _polylineTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       //   // Resume polyline updates
       //   // if (!_isPaused) {
       //   //   _updatePolylines();
@@ -222,6 +228,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _pauseRecording(); // If not paused, pause recording
     }
     // _updatePolylines();
+    // if (!_isPaused) {
+    //   _updatePolylines();
+    // }
     print('Pause/Resume Toggled');
   }
 
@@ -317,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'Gas Leakage Survey',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color(0xFFFFC604),
+        backgroundColor: Color(0xFFEFFF00),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: Builder(
@@ -375,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   right: 65,
                   child: _isRecording ? Container() : MaterialButton(
                     onPressed: _toggleRecording,
-                    color: Color(0xFFFFC604),
+                    color: Color(0xFFEFFF00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -466,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               textAlign: TextAlign.center,
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFFFC604),
+                              backgroundColor: Color(0xFFEFFF00),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

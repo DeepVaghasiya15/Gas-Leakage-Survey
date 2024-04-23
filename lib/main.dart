@@ -20,6 +20,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      // routes: {
+      //   '/': (context) => HomeScreen(isSurveyInProgress: false),
+      //   '/formfill': (context) => FormFill()
+      // },
       // home: const HomeScreen(isSurveyInProgress: false,),
       // home: const LogIn(),
       // home: SplashScreen(), //main
