@@ -7,9 +7,9 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <application
-        android:label="gas_leakage_survey"
+        android:label="Gas Leakage"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/josler_logo">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDlccxm2W1GFJ58Wg8TK50yaRxYXClZk3A"/>
         <activity

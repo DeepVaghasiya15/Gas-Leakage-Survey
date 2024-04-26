@@ -14,7 +14,7 @@ import 'dart:io';
 import '../screens/raise_ticket_screen_options.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 bool previewCompleted = false;
 // FirebaseStorage storage = FirebaseStorage.instance;
@@ -378,7 +378,7 @@ class _FormFillState extends State<FormFill> {
                 onPressed: () async {
                   HapticFeedback.vibrate();
                   int count = 0;
-                  // Submit logic here
+
                   selectedOptionArray.add(mainAreaController.text);
                   selectedOptionArray.add(subAreaController.text);
                   selectedOptionArray.add(dpIrFirstController.text);
@@ -432,7 +432,6 @@ class _FormFillState extends State<FormFill> {
                     if (!route.isFirst) {
                       count++;
                     }
-                    // Return true when the counter reaches 2
                     return count == 11;
                   });
                 },
@@ -836,7 +835,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             )
           ],
