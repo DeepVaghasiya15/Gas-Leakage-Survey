@@ -131,7 +131,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                             onPressed: () {
                               HapticFeedback.vibrate();
                               setState(() {
-                                selectedOption = 'Above Ground';
+                                selectedOption = 'Aboveground';
                                 selectedOptionArray.add(selectedOption!);
                               });
                               // createTicket(selectedOption!);
@@ -158,7 +158,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Above Ground',
+                                  'Aboveground',
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.black),
                                 ),

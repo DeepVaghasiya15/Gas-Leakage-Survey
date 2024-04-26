@@ -62,7 +62,7 @@ Widget build(BuildContext context) {
                     if (selectedOption == 'Underground') {
                       print('Underground selected');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineUG()));
-                    } else if (selectedOption == 'Above Ground') {
+                    } else if (selectedOption == 'Aboveground') {
                       print('Above Ground selected');
                       // Navigate to the corresponding screen for 'Above Ground'
                       Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineAG()));

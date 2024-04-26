@@ -5,7 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:gas_leakage_survey/model/tokenModel.dart';
 
+import '../../data/raise_ticket_data.dart';
+
+late String Token;
 class LogInNew extends StatefulWidget {
   const LogInNew({Key? key}) : super(key: key);
 
@@ -15,7 +20,7 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  TextEditingController _phoneController = TextEditingController(text: "1234567890");
+  TextEditingController _phoneController = TextEditingController(text: "123");
   TextEditingController _passwordController = TextEditingController(text: "123");
   // final _phoneController = TextEditingController();
   // final _passwordController = TextEditingController();
@@ -41,16 +46,16 @@ class _LogInNewState extends State<LogInNew> {
     try {
       print('before api call');
       print('Request payload: ${json.encode({
-        'phone': phoneNumber,
+        'user_id': phoneNumber,
         'password': password,
       })}');
       final response = await http.post(
-        Uri.parse('https://picarro-backend.onrender.com/users/login'),
+        Uri.parse('$baseUrl$loginEndpoint'),
         headers: {
-          'Content-Type': 'application/json', // Specify JSON content type
+          'Content-Type': 'application/json',
         },
         body: json.encode({
-          'phone': phoneNumber,
+          'user_id': phoneNumber,
           'password': password,
         }),
       );
@@ -60,8 +65,11 @@ class _LogInNewState extends State<LogInNew> {
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        final token = jsonResponse['token'];
+        final token = jsonResponse['data']['token'];
+
         print('Token: $token');
+        tokenUser = token;
+        print('tokenUser: $tokenUser');
 
         // Store the token in the secure storage.
         final secureStorage = FlutterSecureStorage();
@@ -199,11 +207,11 @@ class _LogInNewState extends State<LogInNew> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: MaterialButton(
-                    // onPressed: _login,
-                    onPressed: () {
-                      HapticFeedback.vibrate();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
-                    },
+                    onPressed: _login,
+                    // onPressed: () {
+                    //   HapticFeedback.vibrate();
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
+                    // },
                     color: Color(0xFFEFFF00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

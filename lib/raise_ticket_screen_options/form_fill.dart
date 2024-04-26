@@ -1,14 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
+import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
+import 'package:gas_leakage_survey/screens/login/login_screen_new.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
-
 import '../screens/raise_ticket_screen_options.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+
+bool previewCompleted = false;
+// FirebaseStorage storage = FirebaseStorage.instance;
 
 class FormFill extends StatefulWidget {
   const FormFill({Key? key}) : super(key: key);
@@ -21,18 +30,25 @@ class _FormFillState extends State<FormFill> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   Map<String, String> selectedOptionsDictionary = {};
+  late String token;
 
   final mainAreaController = TextEditingController();
   final subAreaController = TextEditingController();
   final dpIrFirstController = TextEditingController();
   final dpIrBarController = TextEditingController();
+  final rmldFirstController = TextEditingController();
 
-  get http => null;
+  // get http => null;
 
   @override
   void initState() {
     super.initState();
     initializeCamera();
+    initializeToken();
+  }
+  void initializeToken() {
+    // Initialize 'token'
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJ0ZW1wIiwidXNlcl9pZCI6IjEyMyIsInJvbGUiOiJhZG1pbiIsIm9yZ2FuaXphdGlvbl9pZCI6IjEyMzM0NDMzNDMiLCJ0aW1lc3RhbXAiOjE3MTQxMTYzMDd9fQ.xB2HtV_i2oH4ZtWbZ1gW1OUq_BG7_vqx3cNe97ri-u4";
   }
 
   Future<void> initializeCamera() async {
@@ -49,31 +65,92 @@ class _FormFillState extends State<FormFill> {
     subAreaController.dispose();
     dpIrFirstController.dispose();
     dpIrBarController.dispose();
+    rmldFirstController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Future<void> createTicket(String selectedOption) async {
+
+    Future<void> createTicket(List<String> selectedOptionArray) async {
       try {
+        String url = '$baseUrl$createTicketEndpoint';
+        String typeOfLeak = selectedOptionArray[0];
+        Map<String, dynamic> requestBody;
+
+        if (typeOfLeak == 'Underground') {
+          requestBody = {
+            // 'type_of_Leak': typeOfLeak,
+            'token': tokenUser,
+            'type_of_Leak': selectedOptionArray[0],
+            'consumer_type': selectedOptionArray[1],
+            'leak_first_detected_through': selectedOptionArray[2],
+            'pipeline': selectedOptionArray[3],
+            'pressure_of_pipeline': selectedOptionArray[4],
+            'pipeline_distribution_type': selectedOptionArray[5],
+            'diameter_of_pipeline': selectedOptionArray[6],
+            'location_of_pipe': selectedOptionArray[7],
+            'cover_of_pipeline': selectedOptionArray[8],
+            'leak_grading': selectedOptionArray[9],
+            'main_area': selectedOptionArray[10],
+            'sub_area_location': selectedOptionArray[11],
+            'dp_ir_reading_when_leak_detected_first' : selectedOptionArray[12],
+            'dp_ir_reading_using_bar_hole_probe': selectedOptionArray[13],
+            'rmld_reading_when_leak_detected_first': selectedOptionArray[14],
+            'photograph_of_location_point': photographOfLocationPoint,
+            'video': video,
+            'coordinates_of_the_leakage_point': coordinatesOfLekagePoint,
+            'address_as_per_google': addressAsPerGoogle,
+            'wind_direction_and_speed': windDirectionAndSpeed,
+            'weather_temperature': weatherTemperature,
+            'organization_id': organizationId,
+            'create_by': createBy,
+            'assign_to': assignTo,
+          };
+          print('Form Fill $tokenUser');
+        } else if (typeOfLeak == 'Aboveground') {
+          requestBody = {
+            // 'type_of_Leak': typeOfLeak,
+            'token': tokenUser,
+            'type_of_Leak': selectedOptionArray[0],
+            'consumer_type': selectedOptionArray[1],
+            'leak_first_detected_through': selectedOptionArray[2],
+            'pipeline': selectedOptionArray[3],
+            'pressure_of_pipeline': selectedOptionArray[4],
+            'pipeline_distribution_type': selectedOptionArray[5],
+            'diameter_of_pipeline': selectedOptionArray[6],
+            'source_of_leak': selectedOptionArray[7],
+            'location_of_pipe': selectedOptionArray[8],
+            'leak_grading': selectedOptionArray[9],
+            'main_area': selectedOptionArray[10],
+            'sub_area_location': selectedOptionArray[11],
+            'dp_ir_reading_when_leak_detected_first' : selectedOptionArray[12],
+            'dp_ir_reading_using_bar_hole_probe': selectedOptionArray[13],
+            'rmld_reading_when_leak_detected_first': selectedOptionArray[14],
+            'photograph_of_location_point': photographOfLocationPoint,
+            'video': video,
+            'coordinates_of_the_leakage_point': coordinatesOfLekagePoint,
+            'address_as_per_google': addressAsPerGoogle,
+            'wind_direction_and_speed': windDirectionAndSpeed,
+            'weather_temperature': weatherTemperature,
+            'organization_id': organizationId,
+            'create_by': createBy,
+            'assign_to': assignTo,
+          };
+          print('Form Fill $tokenUser');
+          print('API Call: $url');
+        } else {
+          print('Invalid type_of_Leak: $typeOfLeak');
+          return; // Stop execution if the type is invalid
+        }
+
+
         final response = await http.post(
-          Uri.parse('https://picarro-backend.onrender.com/tickets/create'),
+          Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{
-            'type_of_Leak': selectedOptionArray[0],
-            'consumer_type' : selectedOptionArray[1],
-            'leak_first_detected_through': selectedOptionArray[2],
-            'pipeline' : selectedOptionArray[3],
-            'pressure_of_pipeline': selectedOptionArray[4],
-            'pipeline_distribution_type' : selectedOptionArray[5],
-            'diameter_of_pipeline': selectedOptionArray[6],
-            'location_of_pipe' : selectedOptionArray[7],
-            'cover_of_pipeline': selectedOptionArray[8],
-            'leak_grading' : selectedOptionArray[9],
-
-          }),
+          body: jsonEncode(requestBody),
         );
 
         if (response.statusCode == 200) {
@@ -85,6 +162,7 @@ class _FormFillState extends State<FormFill> {
         print('Error creating ticket: $e');
       }
     }
+
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
@@ -105,7 +183,7 @@ class _FormFillState extends State<FormFill> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Column(
             children: [
               Align(
@@ -121,7 +199,8 @@ class _FormFillState extends State<FormFill> {
               SizedBox(height: 40),
               TextField(
                 controller: mainAreaController,
-                cursorColor: Color(0xFF31363F),
+                cursorColor: Colors.white,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'Main Area',
                   labelStyle: TextStyle(color: Colors.grey),
@@ -144,6 +223,7 @@ class _FormFillState extends State<FormFill> {
               TextField(
                 controller: subAreaController,
                 cursorColor: Color(0xFF31363F),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'Sub Area / Location',
                   labelStyle: TextStyle(color: Colors.grey),
@@ -166,6 +246,7 @@ class _FormFillState extends State<FormFill> {
               TextField(
                 controller: dpIrFirstController,
                 cursorColor: Color(0xFF31363F),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'DP-IR Reading when leak detected first',
                   labelStyle: TextStyle(color: Colors.grey),
@@ -188,8 +269,31 @@ class _FormFillState extends State<FormFill> {
               TextField(
                 controller: dpIrBarController,
                 cursorColor: Color(0xFF31363F),
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'DP-IR Reading using Bar Hole probe',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xFFEFFF00),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: rmldFirstController,
+                cursorColor: Color(0xFF31363F),
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'RMLD Reading when leak detected first',
                   labelStyle: TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
@@ -210,26 +314,36 @@ class _FormFillState extends State<FormFill> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    icon: Icon(Icons.photo, color: Colors.black),
-                    label: Text('Photo',
-                        style: TextStyle(color: Colors.black),
-                        textAlign: TextAlign.center),
+                    icon: Icon(
+                      previewCompleted ? Icons.done : Icons.photo,
+                      color: Colors.black,
+                    ),
+                    label: Text(
+                      previewCompleted ? 'Done' : 'Photo',
+                      style: TextStyle(color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFEFFF00),
+                      backgroundColor:
+                          previewCompleted ? Colors.green : Color(0xFFEFFF00),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       minimumSize: Size(50, 50),
                     ),
                     onPressed: () {
-                      HapticFeedback.vibrate();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TakePictureScreen(controller: _controller),
-                        ),
-                      );
+                      if (!previewCompleted) {
+                        HapticFeedback.vibrate();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TakePictureScreen(controller: _controller),
+                          ),
+                        );
+                      } else {
+                        // Do whatever you want when the button is pressed after preview completion
+                      }
                     },
                   ),
                   SizedBox(width: 20),
@@ -269,10 +383,11 @@ class _FormFillState extends State<FormFill> {
                   selectedOptionArray.add(subAreaController.text);
                   selectedOptionArray.add(dpIrFirstController.text);
                   selectedOptionArray.add(dpIrBarController.text);
+                  selectedOptionArray.add(rmldFirstController.text);
 
                   // createTicket(selectedOptionArray as String);
-
                   print(selectedOptionArray);
+                  createTicket(selectedOptionArray);
 
                   if (selectedOptionArray.isNotEmpty) {
                     if (selectedOptionArray[0] == 'Underground') {
@@ -318,7 +433,7 @@ class _FormFillState extends State<FormFill> {
                       count++;
                     }
                     // Return true when the counter reaches 2
-                    return count == 12;
+                    return count == 11;
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -409,6 +524,20 @@ class PreviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<void> uploadImageToFirebase(String imagePath) async {
+      print('Image Path $imagePath');
+      // await Firebase.initializeApp();
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child('photos').child('image.jpg');
+        UploadTask uploadTask = ref.putFile(File(imagePath));
+        await uploadTask.whenComplete(() => print('Image uploaded to Firebase'));
+      } catch (e) {
+        print('Error uploading image to Firebase: $e');
+      }
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
@@ -448,8 +577,11 @@ class PreviewScreen extends StatelessWidget {
               ),
               SizedBox(width: 10),
               ElevatedButton.icon(
-                onPressed: () {
+                onPressed: () async {
                   int countPhoto = 0;
+                  previewCompleted = true;
+                  uploadImageToFirebase(imagePath);
+                  print('Image is uploaded to firebase: $uploadImageToFirebase(imagePath)');
                   Navigator.popUntil(context, (route) {
                     if (!route.isFirst) {
                       countPhoto++;

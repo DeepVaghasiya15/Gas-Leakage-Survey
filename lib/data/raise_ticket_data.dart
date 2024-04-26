@@ -1,10 +1,26 @@
 //Raising ticket form data
+String? token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJ0ZW1wIiwidXNlcl9pZCI6IjEyMyIsInJvbGUiOiJhZG1pbiIsIm9yZ2FuaXphdGlvbl9pZCI6IjEyMzM0NDMzNDMiLCJ0aW1lc3RhbXAiOjE3MTQxMTA0NDd9fQ.CodfLWrT8Ko2Z5quiDgUiLYqh5OT8QBnQUEKUODmQ2I";
+
+String baseUrl = 'https://picarro-backend.onrender.com';
+String loginEndpoint = '/users/login';
+String createTicketEndpoint = '/tickets/create';
+
+String? tokenUser = "";
+String? photographOfLocationPoint = "dummyImageText";
+String? video = "dummyVideoText";
+String? coordinatesOfLekagePoint = "dummyCoordinatesText";
+String? addressAsPerGoogle = "dummyAddressText";
+String? windDirectionAndSpeed = "dummyWindText";
+String? weatherTemperature = "dummyWeatherText";
+String? organizationId = "dummyOrganizationText";
+String? createBy = "dummyCreateByText";
+String? assignTo = "dummyAssignToText";
 
 List<String> DataFields = ['Type of Leak','Consumer Type','Leak first detected through','Pipeline','Pressure of Pipeline','Pipeline distribution Type','Diameter of Pipeline','Source of leak','Location of Pipe','Cover of Pipeline','Source of Leakage (After Digging)','Probable Cause of leak (After Digging)','Leak grading'];
 
 final List<String> typeOfLeak = [
   'Underground',
-  'Above Ground',
+  'Aboveground',
 ];
 final List<String> consumerType = [
   'Residence',
