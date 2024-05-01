@@ -13,9 +13,6 @@ import '../../screens/raise_ticket_screen_options.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-bool previewCompleted = false;
-// FirebaseStorage storage = FirebaseStorage.instance;
-
 class FormFill extends StatefulWidget {
   const FormFill({Key? key}) : super(key: key);
 
@@ -88,7 +85,7 @@ class _FormFillState extends State<FormFill> {
             'rmld_reading_when_leak_detected_first': selectedOptionArray[14],
             'photograph_of_location_point': photographOfLocationPoint,
             'video': video,
-            'coordinates_of_the_leakage_point': coordinatesOfLekagePoint,
+            'coordinates_of_the_leakage_point': coordinatesOfLeakagePoint,
             'address_as_per_google': addressAsPerGoogle,
             'wind_direction_and_speed': windDirectionAndSpeed,
             'weather_temperature': weatherTemperature,
@@ -117,7 +114,7 @@ class _FormFillState extends State<FormFill> {
             'rmld_reading_when_leak_detected_first': selectedOptionArray[14],
             'photograph_of_location_point': photographOfLocationPoint,
             'video': video,
-            'coordinates_of_the_leakage_point': coordinatesOfLekagePoint,
+            'coordinates_of_the_leakage_point': coordinatesOfLeakagePoint,
             'address_as_per_google': addressAsPerGoogle,
             'wind_direction_and_speed': windDirectionAndSpeed,
             'weather_temperature': weatherTemperature,
@@ -311,8 +308,7 @@ class _FormFillState extends State<FormFill> {
                       textAlign: TextAlign.center,
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          previewCompleted ? Colors.green : Color(0xFFEFFF00),
+                      backgroundColor: previewCompleted ? Colors.green : Color(0xFFEFFF00),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -327,34 +323,53 @@ class _FormFillState extends State<FormFill> {
                             builder: (context) =>
                                 TakePictureScreen(controller: _controller),
                           ),
-                        );
+                        ).then((value) {
+                          setState(() {
+                            // Set previewCompleted to true when popping back from the other screen
+                            previewCompleted = true;
+                          });
+                        });
                       } else {
                         // Do whatever you want when the button is pressed after preview completion
                       }
                     },
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 20,),
                   ElevatedButton.icon(
-                    icon: Icon(Icons.video_collection, color: Colors.black),
-                    label: Text('Video',
-                        style: TextStyle(color: Colors.black),
-                        textAlign: TextAlign.center),
+                    icon: Icon(
+                      previewCompletedVideo ? Icons.done : Icons.video_collection,
+                      color: Colors.black,
+                    ),
+                    label: Text(
+                      previewCompletedVideo ? 'Done' : 'Video',
+                      style: TextStyle(color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: previewCompletedVideo ? Colors.green : Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       minimumSize: Size(50, 50),
                     ),
                     onPressed: () {
-                      HapticFeedback.vibrate();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TakeVideoScreen(controller: _controller),
-                        ),
-                      );
+                      if (!previewCompletedVideo) {
+                        HapticFeedback.vibrate();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TakeVideoScreen(controller: _controller),
+                          ),
+                        ).then((value) {
+                          setState(() {
+                            // Set previewCompleted to true when popping back from the other screen
+                            previewCompletedVideo = true;
+                          });
+                        });
+                      } else {
+                        // Do whatever you want when the button is pressed after preview completion
+                      }
                     },
                   ),
                 ],

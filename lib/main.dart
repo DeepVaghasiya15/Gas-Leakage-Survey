@@ -8,8 +8,8 @@ import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

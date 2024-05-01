@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../data/raise_ticket_data.dart';
+
+bool previewCompletedVideo = false;
 
 class TakeVideoScreen extends StatefulWidget {
   final CameraController controller;
@@ -38,6 +43,13 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
       }
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.controller.dispose();
+    recordingTimer.cancel();
   }
 
   @override
@@ -119,7 +131,9 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
         ],
       ),
     );
+
   }
+
 
   String _formatTime(int seconds) {
     // Format the time as HH:MM:SS
@@ -154,9 +168,31 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
         _controller.play();
       });
   }
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    Future<String> uploadVideo(File file) async {
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("video/${DateTime.now().toString()}");
+
+        UploadTask uploadTask = ref.putFile(file);
+        TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        return downloadUrl;
+      } catch (e) {
+        print('Error uploading file: $e');
+        throw e; // rethrow the error for handling in the calling function
+      }
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
@@ -204,14 +240,25 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                   width: 10,
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     int countVideo = 0;
-                    Navigator.popUntil(context, (route) {
-                      if (!route.isFirst) {
-                        countVideo++;
-                      }
-                      return countVideo == 3;
-                    });
+
+                    try {
+                      File file = File(widget.videoFile.path); // Corrected to use widget.videoFile.path
+                      String downloadUrl = await uploadVideo(file);
+                      print('Uploaded file URL: $downloadUrl');
+                      video = downloadUrl;
+                      Navigator.popUntil(context, (route) {
+                        if (!route.isFirst) {
+                          countVideo++;
+                        }
+                        return countVideo == 3;
+                      });
+                      previewCompletedVideo = true;
+                    } catch (e) {
+                      print('Error uploading file: $e');
+                    }
+
                   },
                   icon: Icon(Icons.check, color: Colors.black),
                   label: Text(

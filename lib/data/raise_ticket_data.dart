@@ -6,9 +6,9 @@ String loginEndpoint = '/users/login';
 String createTicketEndpoint = '/tickets/create';
 
 String? tokenUser = "";
-String? photographOfLocationPoint = "dummyImageText";
-String? video = "dummyVideoText";
-String? coordinatesOfLekagePoint = "dummyCoordinatesText";
+String? photographOfLocationPoint = "";
+String? video = "";
+String? coordinatesOfLeakagePoint = "";
 String? addressAsPerGoogle = "dummyAddressText";
 String? windDirectionAndSpeed = "dummyWindText";
 String? weatherTemperature = "dummyWeatherText";

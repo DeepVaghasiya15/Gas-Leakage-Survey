@@ -15,6 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import '../data/polyline_algo.dart';
+import '../data/raise_ticket_data.dart';
 
 class LocationCoordinate {
   final double latitude;
@@ -473,6 +474,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                           child: ElevatedButton(
                             onPressed: () {
                               selectedOptionArray.clear();
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -481,6 +483,14 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                   ),
                                 ),
                               );
+                              if (_currentPosition != null) {
+                                double latitude = _currentPosition!.latitude;
+                                double longitude = _currentPosition!.longitude;
+                                coordinatesOfLeakagePoint = "Latitude: $latitude, Longitude: $longitude";
+                                print('Current Coordinates: Latitude: $latitude, Longitude: $longitude');
+                              } else {
+                                print('Current position not available.');
+                              }
                             },
                             child: Text(
                               'Raise Ticket',
