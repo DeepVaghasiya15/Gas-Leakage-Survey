@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "276043700050",
-    "project_id": "josler-4428d",
-    "storage_bucket": "josler-4428d.appspot.com"
+    "project_number": "984363081020",
+    "project_id": "josler-gas-leakage",
+    "storage_bucket": "josler-gas-leakage.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:276043700050:android:f6d4ba8f86d1c7a9f5cc8b",
+        "mobilesdk_app_id": "1:984363081020:android:e7e3b5ffe6c72256ca1239",
         "android_client_info": {
           "package_name": "com.example.gas_leakage_survey"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDV5SU-VdAlsXdugcazIg6eAmPpDxXBZcY"
+          "current_key": "AIzaSyDmAeTFAo8IBcs9wHDSmrg4NY_Fff_mJbU"
         }
       ],
       "services": {

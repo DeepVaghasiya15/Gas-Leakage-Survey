@@ -16,7 +16,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import '../data/polyline_algo.dart';
 
-
 class LocationCoordinate {
   final double latitude;
   final double longitude;
@@ -40,7 +39,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   Completer<GoogleMapController> _controller = Completer();
   List<LatLng> _recordedLocations = [];
   Set<Polyline> _polylines = {};
@@ -53,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? _polylineTimer;
 
   @override
+  bool get wantKeepAlive => true;
   void initState() {
     super.initState();
     _getCurrentLocation();
@@ -83,20 +83,27 @@ class _HomeScreenState extends State<HomeScreen> {
     // _printCurrentPosition();
   }
 
+  void rebuildScreen() {
+    setState(() {});
+  }
+
   void _startLocationUpdates() {
     _positionStreamSubscription = Geolocator.getPositionStream().listen(
           (Position position) {
-        setState(() {
-          _currentPosition = position;
-        });
-        if (_isRecording) {
-          _recordedLocations.add(LatLng(position.latitude, position.longitude));
-          _updateMarkerPosition();
+        if (mounted) { // Check if widget is still mounted
+          setState(() {
+            _currentPosition = position;
+          });
+          if (_isRecording) {
+            _recordedLocations.add(LatLng(position.latitude, position.longitude));
+            _updateMarkerPosition();
+          }
         }
       },
       onError: (error) => print("Error in location updates: $error"),
     );
   }
+
 
   void _stopLocationUpdates() {
     _positionStreamSubscription?.cancel();
@@ -501,4 +508,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
     );
   }
+  @override
+  void dispose() {
+    _positionStreamSubscription?.cancel();
+    super.dispose();
+  }
+
 }

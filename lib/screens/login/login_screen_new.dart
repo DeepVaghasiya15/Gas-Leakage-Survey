@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:gas_leakage_survey/model/tokenModel.dart';
 import '../../data/raise_ticket_data.dart';
+import '../../shared_preference.dart';
 
 late String Token;
 class LogInNew extends StatefulWidget {
@@ -75,10 +75,11 @@ class _LogInNewState extends State<LogInNew> {
         await secureStorage.write(key: 'token', value: token);
 
         // Navigate to the home screen.
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
         );
+        SharedPreferencesHelper.saveLoginState(true);
       } else {
         // Handle the error.
         ScaffoldMessenger.of(context).showSnackBar(
@@ -114,9 +115,9 @@ class _LogInNewState extends State<LogInNew> {
                   ),
                 ),
                 const SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                  child: const Align(
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.0),
+                  child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Login",
