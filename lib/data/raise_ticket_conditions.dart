@@ -85,6 +85,3 @@ List<String> generateItemsBasedOnPipelineDistributionType(String selectedPipelin
   }
   return []; // Added return statement
 }
-
-
-//buttons actions

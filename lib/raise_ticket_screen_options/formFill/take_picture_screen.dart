@@ -133,7 +133,15 @@ class PreviewScreen extends StatelessWidget {
                 onPressed: () async {
                   int countPhoto = 0;
                   previewCompleted = true;
-
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return Center(
+                        child: CircularProgressIndicator(), // Show loading indicator
+                      );
+                    },
+                  );
                   try {
                     // Convert imagePath to File
                     File imageFile = File(imagePath);
@@ -147,7 +155,7 @@ class PreviewScreen extends StatelessWidget {
                       if (!route.isFirst) {
                         countPhoto++;
                       }
-                      return countPhoto == 3;
+                      return countPhoto == 4;
                     });
                     previewCompleted = true;
                   } catch (e) {

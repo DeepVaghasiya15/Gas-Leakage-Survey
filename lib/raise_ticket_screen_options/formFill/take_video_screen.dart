@@ -25,15 +25,18 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   int recordingTimeSeconds = 0;
   late Timer recordingTimer;
   bool isRed = false;
+  static const int maxRecordingTime = 10;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the recording timer
     recordingTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (isRecording) {
         setState(() {
           recordingTimeSeconds++;
+          if (recordingTimeSeconds >= maxRecordingTime) {
+            stopRecording();
+          }
         });
       }
     });
@@ -50,6 +53,28 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
     super.dispose();
     widget.controller.dispose();
     recordingTimer.cancel();
+  }
+
+  void stopRecording() async {
+    try {
+      final XFile recordedVideo = await widget.controller.stopVideoRecording();
+      print('Stop video recording result: ${recordedVideo.path}');
+      setState(() {
+        videoPath = recordedVideo.path;
+        isRecording = false;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewScreen2(
+            videoFile: recordedVideo,
+            controller: widget.controller,
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error stopping video recording: $e');
+    }
   }
 
   @override
@@ -77,33 +102,13 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
                   await widget.controller.startVideoRecording();
                   setState(() {
                     isRecording = true;
-                    recordingTimeSeconds =
-                    0; // Reset recording time when starting a new recording
+                    recordingTimeSeconds = 0;
                   });
                 } catch (e) {
                   print('Error starting video recording: $e');
                 }
               } else {
-                try {
-                  final XFile recordedVideo =
-                  await widget.controller.stopVideoRecording();
-                  print(
-                      'Stop video recording result: ${recordedVideo.path}'); // Debugging statement
-                  setState(() {
-                    videoPath = recordedVideo.path;
-                    isRecording = false;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PreviewScreen2(
-                          videoFile: recordedVideo,
-                          controller: widget.controller),
-                    ),
-                  );
-                } catch (e) {
-                  print('Error stopping video recording: $e');
-                }
+                stopRecording();
               }
             },
             style: ElevatedButton.styleFrom(
@@ -118,9 +123,9 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
               child: Text(
                 isRecording ? 'Stop Recording' : 'Start Recording',
                 style: TextStyle(
-                  fontSize: 18.0, // Set text size
-                  fontWeight: FontWeight.bold, // Set text weight
-                  color: Colors.black, // Set text color
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -131,12 +136,9 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
         ],
       ),
     );
-
   }
 
-
   String _formatTime(int seconds) {
-    // Format the time as HH:MM:SS
     int hours = seconds ~/ 3600;
     int minutes = (seconds % 3600) ~/ 60;
     int remainingSeconds = seconds % 60;
@@ -148,9 +150,7 @@ class PreviewScreen2 extends StatefulWidget {
   final XFile videoFile;
   final CameraController controller;
 
-  const PreviewScreen2(
-      {Key? key, required this.videoFile, required this.controller})
-      : super(key: key);
+  const PreviewScreen2({Key? key, required this.videoFile, required this.controller}) : super(key: key);
 
   @override
   _PreviewScreen2State createState() => _PreviewScreen2State();
@@ -164,10 +164,11 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
     super.initState();
     _controller = VideoPlayerController.file(File(widget.videoFile.path))
       ..initialize().then((_) {
-        setState(() {}); // Ensure the video is initialized and start playing
+        setState(() {});
         _controller.play();
       });
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -176,20 +177,17 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<String> uploadVideo(File file) async {
       try {
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference ref = storage.ref().child("video/${DateTime.now().toString()}");
-
         UploadTask uploadTask = ref.putFile(file);
         TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
-
         String downloadUrl = await snapshot.ref.getDownloadURL();
         return downloadUrl;
       } catch (e) {
         print('Error uploading file: $e');
-        throw e; // rethrow the error for handling in the calling function
+        throw e;
       }
     }
 
@@ -212,15 +210,14 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
               aspectRatio: _controller.value.aspectRatio,
               child: VideoPlayer(_controller),
             )
-                : CircularProgressIndicator(), // Show a loader until video is initialized
+                : CircularProgressIndicator(),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pop(
-                        context); // Navigate back to the recording screen
+                    Navigator.pop(context);
                   },
                   icon: Icon(Icons.refresh, color: Colors.black),
                   label: Text(
@@ -242,9 +239,17 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                 ElevatedButton.icon(
                   onPressed: () async {
                     int countVideo = 0;
-
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    );
                     try {
-                      File file = File(widget.videoFile.path); // Corrected to use widget.videoFile.path
+                      File file = File(widget.videoFile.path);
                       String downloadUrl = await uploadVideo(file);
                       print('Uploaded file URL: $downloadUrl');
                       video = downloadUrl;
@@ -252,13 +257,12 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                         if (!route.isFirst) {
                           countVideo++;
                         }
-                        return countVideo == 3;
+                        return countVideo == 4;
                       });
-                      previewCompletedVideo = true;
+                      bool previewCompletedVideo = false;
                     } catch (e) {
                       print('Error uploading file: $e');
                     }
-
                   },
                   icon: Icon(Icons.check, color: Colors.black),
                   label: Text(

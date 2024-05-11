@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gas_leakage_survey/data/polyline_data.dart';
+import 'package:gas_leakage_survey/raise_ticket_screen_options/formFill/take_video_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
 import 'package:gas_leakage_survey/screens/side_drawer/inbuilt_drawer.dart';
@@ -14,8 +15,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather/weather.dart';
 import '../data/polyline_algo.dart';
 import '../data/raise_ticket_data.dart';
+import '../raise_ticket_screen_options/formFill/take_picture_screen.dart';
+import 'package:geocoding/geocoding.dart';
+
 
 class LocationCoordinate {
   final double latitude;
@@ -51,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   bool _isPaused = false;
   StreamSubscription<Position>? _positionStreamSubscription;
   Timer? _polylineTimer;
+  final WeatherFactory _wf = WeatherFactory(OPENWEATHER_API_KEY);
+  Weather? _weather;
 
   @override
   bool get wantKeepAlive => true;
@@ -105,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     );
   }
 
-
   void _stopLocationUpdates() {
     _positionStreamSubscription?.cancel();
   }
@@ -141,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   }
 
   Future<List<LatLng>> _sendCoordinatesToServer(List<LatLng> coordinates) async {
-    final url = 'https://97b2-2401-4900-1f3e-8fff-00-202-7626.ngrok-free.app/'; // Replace with your API endpoint
+    final url = 'https://97b2-2401-4900-1f3e-8fff-00-202-7626.ngrok-free.app/';
     final headers = <String, String>{
       'Content-Type': 'application/json',
     };
@@ -230,7 +236,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     });
   }
 
-
   void _togglePauseResume() {
     if (_isPaused) {
       _resumeRecording(); // If paused, resume recording
@@ -267,8 +272,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     });
   }
 
-
-
   void _updatePolylines() {
     if (_isPaused) {
       return; // If recording is paused, do not update polylines
@@ -284,7 +287,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       ));
     }
   }
-
 
   void _updatePolygons() {
     _polygons.clear();
@@ -316,7 +318,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     print('Marker position updated.');
   }
 
-
   void _printCurrentPosition() {
     if (_currentPosition != null) {
       print('Current Latitude: ${_currentPosition!.latitude}');
@@ -327,16 +328,83 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  Future<void> fetchWeather(double latitude, double longitude) async {
+    Weather? weather = await _wf.currentWeatherByLocation(latitude, longitude);
+    if (weather != null) {
+      setState(() {
+        _weather = weather;
+      });
+    } else {
+      print('Weather data not available.');
+    }
+  }
+
+
+  Future<String?> fetchAddress(double latitude, double longitude) async {
+    try {
+      // Retrieve a list of placemarks for the provided coordinates
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+
+      // Check if any placemarks were found
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+
+        // Construct the address string using available placemark properties
+        String address = "${place.subThoroughfare ?? ''}, ${place.thoroughfare ?? ''}, ${place.subLocality ?? ''}, ${place.locality ?? ''}, ${place.administrativeArea ?? ''} ${place.postalCode ?? ''}, ${place.country ?? ''}";
+
+        // Remove leading comma and space if the first part of the address is empty
+        address = address.trim().replaceAll(RegExp(r'^,\s*'), '');
+
+        // Return the constructed address
+        return address;
+      } else {
+        // Handle case where no placemarks were found
+        print("No placemarks found for the provided coordinates.");
+        return null;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the geocoding process
+      print("Error fetching address: $e");
+      return null; // Return null to indicate failure
+    }
+  }
+
+
+  // Future<String?> getAddress(double latitude, double longitude) async {
+  //   final apiKey = 'AIzaSyDlccxm2W1GFJ58Wg8TK50yaRxYXClZk3A'; // Replace with your actual API key
+  //   final url =
+  //       'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+  //
+  //   final response = await http.get(Uri.parse(url));
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     if (data['status'] == 'OK') {
+  //       final results = data['results'];
+  //       print('Result: $results');
+  //       if (results.isNotEmpty) {
+  //         final address = results[0]['formatted_address'];
+  //         print('Address: $address');
+  //         return address; // Return the address
+  //       }
+  //     }
+  //   } else {
+  //     print('Failed to fetch address. Status code: ${response.statusCode}');
+  //     print('Response body: ${response.body}');
+  //   }
+  //   return null;
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Color(0xFF31363F),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Gas Leakage Survey',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color(0xFFEFFF00),
+        backgroundColor: const Color(0xFFEFFF00),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: Builder(
@@ -355,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
           ? Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(0),
                     topRight: Radius.circular(0),
                   ),
@@ -400,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     ),
                     minWidth: double.infinity,
                     height: 50,
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.play_arrow, color: Colors.black), // Icon
@@ -430,8 +498,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                           flex: 4,
                           child: ElevatedButton.icon(
                             onPressed: _stopRecording,
-                            icon: Icon(Icons.stop, color: Colors.black,size: 22,),
-                            label: Text('Stop', style: TextStyle(color: Colors.black,fontSize: 14),
+                            icon: const Icon(Icons.stop, color: Colors.black,size: 22,),
+                            label: const Text('Stop', style: TextStyle(color: Colors.black,fontSize: 14),
                               textAlign: TextAlign.center,),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
@@ -442,9 +510,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Expanded(
-                          // fit: FlexFit.tight,
                           flex: 5,
                           child: ElevatedButton.icon(
                             onPressed: _togglePauseResume,
@@ -469,12 +536,12 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                         ),
                         SizedBox(width: 10,),
                         Expanded(
-                          // fit: FlexFit.tight,
                           flex: 4,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               selectedOptionArray.clear();
-
+                              previewCompleted = false;
+                              previewCompletedVideo = false;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -488,15 +555,39 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                 double longitude = _currentPosition!.longitude;
                                 coordinatesOfLeakagePoint = "Latitude: $latitude, Longitude: $longitude";
                                 print('Current Coordinates: Latitude: $latitude, Longitude: $longitude');
+
+                                // Fetch address
+                                String? address = await fetchAddress(latitude, longitude);
+                                if (address != null) {
+                                  print('Address: $address');
+                                } else {
+                                  print('Address not available.');
+                                }
+                                addressAsPerGoogle = address;
+                                print(addressAsPerGoogle);
+                                // String? address = await getAddress(latitude, longitude); // Corrected this line
+                                // if (address != null) {
+                                //   print('Address: $address');
+                                // } else {
+                                //   print('Address not available.');
+                                // }
+                                // print(getAddress(latitude, longitude));
+
+
+                                //Fetch Weather
+                                await fetchWeather(latitude, longitude);
+                                if (_weather != null) {
+                                  windDirectionAndSpeed = "Wind Direction: ${_weather!.windDegree}° , Wind Speed: ${_weather!.windSpeed} m/s";
+                                  weatherTemperature = "Weather: ${_weather!.weatherMain}, Temperature: ${_weather!.temperature?.celsius?.toStringAsFixed(2)}°C";
+                                  print(windDirectionAndSpeed);
+                                  print(weatherTemperature);
+                                } else {
+                                  print('Weather data not available.');
+                                }
                               } else {
                                 print('Current position not available.');
                               }
                             },
-                            child: Text(
-                              'Raise Ticket',
-                              style: TextStyle(color: Colors.black, fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFEFFF00),
                               shape: RoundedRectangleBorder(
@@ -504,13 +595,17 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                               ),
                               minimumSize: Size(50, 50),
                             ),
+                            child: const Text(
+                              'Raise Ticket',
+                              style: TextStyle(color: Colors.black, fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-
               ],
             )
           : Center(
@@ -523,5 +618,4 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _positionStreamSubscription?.cancel();
     super.dispose();
   }
-
 }

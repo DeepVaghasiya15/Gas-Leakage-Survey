@@ -1,20 +1,22 @@
 //Raising ticket form data
-
 String baseUrl = 'https://picarro-backend.onrender.com';
+// String baseUrl = 'http://127.0.0.1:5000/';
 // String baseUrl = 'https://7e5e-2401-4900-1f3e-8fff-00-22a-f7f2.ngrok-free.app';
 String loginEndpoint = '/users/login';
 String createTicketEndpoint = '/tickets/create';
+
+const OPENWEATHER_API_KEY = "640b74138a4b83ff1bf4f78ddf113b93";
 
 String? tokenUser = "";
 String? photographOfLocationPoint = "";
 String? video = "";
 String? coordinatesOfLeakagePoint = "";
-String? addressAsPerGoogle = "dummyAddressText";
-String? windDirectionAndSpeed = "dummyWindText";
-String? weatherTemperature = "dummyWeatherText";
+String? addressAsPerGoogle = "";
+String? windDirectionAndSpeed = "";
+String? weatherTemperature = "";
 String? organizationId = "dummyOrganizationText";
 String? createBy = "dummyCreateByText";
-String? assignTo = "dummyAssignToText";
+String? assignTo = "Assign To";
 
 List<String> DataFields = ['Type of Leak','Consumer Type','Leak first detected through','Pipeline','Pressure of Pipeline','Pipeline distribution Type','Diameter of Pipeline','Source of leak','Location of Pipe','Cover of Pipeline','Source of Leakage (After Digging)','Probable Cause of leak (After Digging)','Leak grading'];
 

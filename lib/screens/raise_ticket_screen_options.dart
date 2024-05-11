@@ -31,12 +31,12 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF292C3D),
+      backgroundColor: const Color(0xFF292C3D),
       appBar: AppBar(
-          title: Text("Raise Ticket"),
-          backgroundColor: Color(0xFFEFFF00),
+          title: const Text("Raise Ticket"),
+          backgroundColor: const Color(0xFFEFFF00),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (selectedOptionArray.isNotEmpty) {
               // Remove the last item from selectedOptionArray
@@ -47,17 +47,17 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.splitscreen), // You can use any icon here
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RaiseTicket()),
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.splitscreen), // You can use any icon here
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(builder: (context) => RaiseTicket()),
+        //       );
+        //     },
+        //   ),
+        // ],
           ),
       body: Column(
         children: [
@@ -70,13 +70,13 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Image.asset("assets/images/type_of_leak_bg.png"),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     Text(DataFields[0],
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white)),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -113,8 +113,8 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                   width: 30,
                                   height: 30,
                                 ),
-                                SizedBox(height: 10),
-                                Text(
+                                const SizedBox(height: 10),
+                                const Text(
                                   'Underground',
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.black),
@@ -123,7 +123,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         SizedBox(
                           width: 145, // Set the width of the buttons
                           height: 130, // Set the height of the buttons
@@ -142,7 +142,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                       builder: (context) =>
                                           const ConsumerType()));
                             },
-                            color: Color(0xFFEFFF00),
+                            color: const Color(0xFFEFFF00),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -156,8 +156,8 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                                   width: 30,
                                   height: 30,
                                 ),
-                                SizedBox(height: 10),
-                                Text(
+                                const SizedBox(height: 10),
+                                const Text(
                                   'Aboveground',
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.black),
