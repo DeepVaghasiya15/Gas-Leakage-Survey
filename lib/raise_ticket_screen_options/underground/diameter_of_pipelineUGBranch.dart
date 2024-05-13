@@ -79,7 +79,7 @@ Widget build(BuildContext context) {
                       children: [
                         Text(
                           type,
-                          style: TextStyle(fontSize: 35, color: Colors.black),
+                          style: TextStyle(fontSize: type == '125' ? 30 : 35, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 1),

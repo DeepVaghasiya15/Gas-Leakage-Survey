@@ -30,16 +30,16 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top:50.0,right: 20,left: 20),
+      padding: const EdgeInsets.only(top:25.0,right: 20,left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             DataFields[9],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
+            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 10),
           GridView.count(
             crossAxisCount: 2, // 2 columns
             shrinkWrap: true,
@@ -50,7 +50,7 @@ Widget build(BuildContext context) {
               String iconPath = coverOfPipelineIcon[index];
 
               return Padding(
-                padding: EdgeInsets.all(6.0),
+                padding: EdgeInsets.all(7.0),
                 child: MaterialButton(
                   onPressed: () {
                     HapticFeedback.vibrate();

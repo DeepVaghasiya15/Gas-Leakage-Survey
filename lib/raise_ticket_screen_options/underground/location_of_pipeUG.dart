@@ -28,16 +28,16 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top:40.0,right: 20,left: 20),
+      padding: const EdgeInsets.only(top:25.0,right: 20,left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             DataFields[8],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
+            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 15),
           GridView.count(
             crossAxisCount: 2, // 2 columns
             shrinkWrap: true,
