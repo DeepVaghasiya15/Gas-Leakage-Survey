@@ -15,7 +15,7 @@ String? addressAsPerGoogle = "";
 String? windDirectionAndSpeed = "";
 String? weatherTemperature = "";
 String? organizationId = "dummyOrganizationText";
-String? createBy = "dummyCreateByText";
+String? createBy = "";
 String? assignTo = "Assign To";
 
 List<String> DataFields = [

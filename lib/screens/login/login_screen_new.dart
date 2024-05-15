@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
+import 'package:gas_leakage_survey/screens/login/user_profiles_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gas_leakage_survey/model/tokenModel.dart';
 import '../../data/raise_ticket_data.dart';
@@ -19,10 +20,10 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  // TextEditingController _phoneController = TextEditingController(text: "123");
-  // TextEditingController _passwordController = TextEditingController(text: "123");
-  final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController(text: "222");
+  TextEditingController _passwordController = TextEditingController(text: "222");
+  // final _phoneController = TextEditingController();
+  // final _passwordController = TextEditingController();
   bool _passwordVisible = false;
 
   @override
@@ -75,10 +76,11 @@ class _LogInNewState extends State<LogInNew> {
         await secureStorage.write(key: 'token', value: token);
 
         // Navigate to the home screen.
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
+        // );
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
         SharedPreferencesHelper.saveLoginState(true);
       } else {
         // Handle the error.
@@ -210,7 +212,8 @@ class _LogInNewState extends State<LogInNew> {
                     onPressed: _login,
                     // onPressed: () {
                     //   HapticFeedback.vibrate();
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
+                    //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
                     // },
                     color: Color(0xFFEFFF00),
                     shape: RoundedRectangleBorder(
