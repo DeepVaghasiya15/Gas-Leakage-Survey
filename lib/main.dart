@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gas_leakage_survey/screens/login/user_profiles_screen.dart';
 import 'package:gas_leakage_survey/shared_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         //   },
         // ),
         '/': (context) => const LogInNew(),
+        // '/': (context) => const UserProfileScreen(),
         '/homescreen': (context) => const HomeScreen(isSurveyInProgress: false),
         '/raiseticketscreen': (context) => const RaiseTicketScreenOptions(isSurveyInProgress: false),
       },

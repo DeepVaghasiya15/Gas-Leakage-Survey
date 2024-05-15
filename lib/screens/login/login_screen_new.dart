@@ -19,10 +19,10 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  TextEditingController _phoneController = TextEditingController(text: "123");
-  TextEditingController _passwordController = TextEditingController(text: "123");
-  // final _phoneController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  // TextEditingController _phoneController = TextEditingController(text: "123");
+  // TextEditingController _passwordController = TextEditingController(text: "123");
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _passwordVisible = false;
 
   @override
@@ -45,7 +45,7 @@ class _LogInNewState extends State<LogInNew> {
     try {
       print('before api call');
       print('Request payload: ${json.encode({
-        'user_id': phoneNumber,
+        'organization_id': phoneNumber,
         'password': password,
       })}');
       final response = await http.post(
@@ -54,7 +54,7 @@ class _LogInNewState extends State<LogInNew> {
           'Content-Type': 'application/json',
         },
         body: json.encode({
-          'user_id': phoneNumber,
+          'organization_id': phoneNumber,
           'password': password,
         }),
       );
