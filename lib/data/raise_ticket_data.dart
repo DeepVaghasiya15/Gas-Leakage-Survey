@@ -4,6 +4,7 @@ String baseUrl = 'https://picarro-backend.onrender.com';
 // String baseUrl = 'https://f1d0-2409-40c1-10d2-862-c999-3ae6-8f25-69d7.ngrok-free.app/';
 String loginEndpoint = '/clients/login';
 String createTicketEndpoint = '/tickets/create';
+String getUserEndPoint = '/employee/all';
 
 const OPENWEATHER_API_KEY = "640b74138a4b83ff1bf4f78ddf113b93";
 

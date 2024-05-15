@@ -22,7 +22,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<List<String>> fetchUserList() async {
-    final response = await http.get(Uri.parse('https://picarro-backend.onrender.com/employee/all'));
+    final response = await http.get(Uri.parse('$baseUrl$getUserEndPoint'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
