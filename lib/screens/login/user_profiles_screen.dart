@@ -53,7 +53,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         backgroundColor: const Color(0xFFEFFF00),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+        padding: const EdgeInsets.only(top: 10.0, bottom: 12),
         child: FutureBuilder<List<String>>(
           future: _userListFuture,
           builder: (context, snapshot) {
