@@ -20,10 +20,10 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  TextEditingController _phoneController = TextEditingController(text: "222");
-  TextEditingController _passwordController = TextEditingController(text: "222");
-  // final _phoneController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  // TextEditingController _phoneController = TextEditingController(text: "222");
+  // TextEditingController _passwordController = TextEditingController(text: "222");
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _passwordVisible = false;
 
   @override
@@ -154,9 +154,9 @@ class _LogInNewState extends State<LogInNew> {
                     keyboardType: TextInputType.phone,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      labelText: 'User ID',
+                      labelText: 'Project ID',
                       labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.phone, color: Colors.white),
+                      prefixIcon: Icon(Icons.card_travel_rounded, color: Colors.white),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
                       ),

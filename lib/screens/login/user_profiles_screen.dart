@@ -46,7 +46,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: const Color(0xFF292C3D),
       appBar: AppBar(
         title: const Text(
-          "Select User",
+          "Select Employee",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
         ),
         centerTitle: true,

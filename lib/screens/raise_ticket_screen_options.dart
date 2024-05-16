@@ -146,8 +146,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            elevation:
-                                10, // Adjust the elevation to create a 3D effect
+                            elevation: 10, // Adjust the elevation to create a 3D effect
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
