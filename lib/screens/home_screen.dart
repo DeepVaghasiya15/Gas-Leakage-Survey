@@ -553,7 +553,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                               if (_currentPosition != null) {
                                 double latitude = _currentPosition!.latitude;
                                 double longitude = _currentPosition!.longitude;
-                                coordinatesOfLeakagePoint = "Latitude: $latitude, Longitude: $longitude";
+                                coordinatesOfLeakagePoint = "$latitude $longitude";
                                 print('Current Coordinates: Latitude: $latitude, Longitude: $longitude');
 
                                 // Fetch address
