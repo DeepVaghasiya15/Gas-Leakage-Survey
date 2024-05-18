@@ -58,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   Timer? _polylineTimer;
   final WeatherFactory _wf = WeatherFactory(OPENWEATHER_API_KEY);
   Weather? _weather;
+  bool _isSurveyStoppedDueToTicket = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     //
     // _recordedLocations.addAll(providedCoordinates
     //     .map((coord) => LatLng(coord['latitude']!, coord['longitude']!)));
-
+    //
     // List<LatLng> simplifiedPolyline = simplifyPolyline(_recordedLocations, 0.001);
     //
     // // Add the simplified polyline to _polylines
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     //   color: Colors.blue,
     //   width: 5,
     // ));
-
+    //
     // _updatePolylines();
     // _updatePolygons();
 
@@ -369,31 +370,39 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
-
-  // Future<String?> getAddress(double latitude, double longitude) async {
-  //   final apiKey = 'AIzaSyDlccxm2W1GFJ58Wg8TK50yaRxYXClZk3A'; // Replace with your actual API key
-  //   final url =
-  //       'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
-  //
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data = json.decode(response.body);
-  //     if (data['status'] == 'OK') {
-  //       final results = data['results'];
-  //       print('Result: $results');
-  //       if (results.isNotEmpty) {
-  //         final address = results[0]['formatted_address'];
-  //         print('Address: $address');
-  //         return address; // Return the address
-  //       }
-  //     }
-  //   } else {
-  //     print('Failed to fetch address. Status code: ${response.statusCode}');
-  //     print('Response body: ${response.body}');
-  //   }
-  //   return null;
-  // }
-
+  void _showSurveyOptionsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Survey Paused'),
+          content: Text('Do you want to continue the survey or stop it?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _resumeRecording();
+                setState(() {
+                  _isSurveyStoppedDueToTicket = false;
+                });
+              },
+              child: Text('Continue'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  _isSurveyStoppedDueToTicket = false;
+                  _isRecording = false;
+                });
+              },
+              child: Text('Stop'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

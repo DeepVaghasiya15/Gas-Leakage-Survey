@@ -343,7 +343,7 @@ class _FormFillState extends State<FormFill> {
                           ).then((value) {
                             setState(() {
                               // Set previewCompleted to true when popping back from the other screen
-                              previewCompleted = true;
+                              // previewCompleted = false;
                             });
                           });
                         } else {
@@ -386,7 +386,7 @@ class _FormFillState extends State<FormFill> {
                           ).then((value) {
                             setState(() {
                               // Set previewCompleted to true when popping back from the other screen
-                              previewCompletedVideo = true;
+                              // previewCompletedVideo = false;
                             });
                           });
                         } else {

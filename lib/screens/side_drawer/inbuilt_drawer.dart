@@ -45,57 +45,57 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
             },
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-          decoration: BoxDecoration(
-            color: Color(0xFF31363F), // Set your desired background color here
-            borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
-          ),
-          // color: Color(0xFF31363F), // Set your desired background color here
-          child: ListTile(
-            title: const Text(
-              'History',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
-            ),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HistoryScreen()));
-            },
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-          decoration: BoxDecoration(
-            color: Color(0xFF31363F), // Set your desired background color here
-            borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
-          ),
-          // color: Color(0xFF31363F), // Set your desired background color here
-          child: ListTile(
-            title: const Text(
-              'Pending Route',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
-            ),
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const SpeakersScreen()));
-            },
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-          decoration: BoxDecoration(
-            color: Color(0xFF31363F), // Set your desired background color here
-            borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
-          ),
-          // color: Color(0xFF31363F), // Set your desired background color here
-          child: ListTile(
-            title: const Text(
-              'Change Password',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
-            ),
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const SpeakersScreen()));
-            },
-          ),
-        ),
+        // Container(
+        //   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+        //   decoration: BoxDecoration(
+        //     color: Color(0xFF31363F), // Set your desired background color here
+        //     borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
+        //   ),
+        //   // color: Color(0xFF31363F), // Set your desired background color here
+        //   child: ListTile(
+        //     title: const Text(
+        //       'History',
+        //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+        //     ),
+        //     onTap: () {
+        //       Navigator.push(context, MaterialPageRoute(builder: (context) => const HistoryScreen()));
+        //     },
+        //   ),
+        // ),
+        // Container(
+        //   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+        //   decoration: BoxDecoration(
+        //     color: Color(0xFF31363F), // Set your desired background color here
+        //     borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
+        //   ),
+        //   // color: Color(0xFF31363F), // Set your desired background color here
+        //   child: ListTile(
+        //     title: const Text(
+        //       'Pending Route',
+        //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+        //     ),
+        //     onTap: () {
+        //       // Navigator.push(context, MaterialPageRoute(builder: (context) => const SpeakersScreen()));
+        //     },
+        //   ),
+        // ),
+        // Container(
+        //   margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+        //   decoration: BoxDecoration(
+        //     color: Color(0xFF31363F), // Set your desired background color here
+        //     borderRadius: BorderRadius.circular(10.0), // Set your desired border radius here
+        //   ),
+        //   // color: Color(0xFF31363F), // Set your desired background color here
+        //   child: ListTile(
+        //     title: const Text(
+        //       'Change Password',
+        //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+        //     ),
+        //     onTap: () {
+        //       // Navigator.push(context, MaterialPageRoute(builder: (context) => const SpeakersScreen()));
+        //     },
+        //   ),
+        // ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
           decoration: BoxDecoration(

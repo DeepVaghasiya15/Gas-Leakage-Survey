@@ -258,7 +258,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                         }
                         return countVideo == 4;
                       });
-                      bool previewCompletedVideo = false;
+                      previewCompletedVideo = true;
                     } catch (e) {
                       print('Error uploading file: $e');
                     }

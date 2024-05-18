@@ -20,10 +20,10 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  // TextEditingController _phoneController = TextEditingController(text: "222");
-  // TextEditingController _passwordController = TextEditingController(text: "222");
-  final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController(text: "888");
+  TextEditingController _passwordController = TextEditingController(text: "123");
+  // final _phoneController = TextEditingController();
+  // final _passwordController = TextEditingController();
   bool _passwordVisible = false;
 
   @override
@@ -80,7 +80,7 @@ class _LogInNewState extends State<LogInNew> {
         //   context,
         //   MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
         // );
-        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
         SharedPreferencesHelper.saveLoginState(true);
       } else {
         // Handle the error.

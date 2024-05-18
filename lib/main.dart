@@ -11,17 +11,19 @@ import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // static const String KEYLOGIN = "login";
+  // final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // navigatorObservers: [routeObserver],
       debugShowCheckedModeBanner: false,
       title: 'Gas Leakage',
       initialRoute: '/',
