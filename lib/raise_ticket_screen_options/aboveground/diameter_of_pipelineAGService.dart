@@ -12,12 +12,12 @@ class DiameterOfPipelineAGService extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
+    backgroundColor: const Color(0xFF292C3D),
     appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
+      title: const Text("Raise Ticket"),
+      backgroundColor: const Color(0xFFEFFF00),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           if (selectedOptionArray.isNotEmpty) {
             // Remove the last item from selectedOptionArray
@@ -36,14 +36,14 @@ Widget build(BuildContext context) {
         children: [
           Text(
             DataFields[6],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 70),
+          const SizedBox(height: 70),
           GridView.count(
             crossAxisCount: 2, // 2 columns
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
               // Generate a list of pairs of texts and arrays
               diameterOfPipelineAGService.length,
@@ -53,7 +53,7 @@ Widget build(BuildContext context) {
                 index]; // Assuming you have another array to pair with each text
 
                 return Padding(
-                  padding: EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: MaterialButton(
                     onPressed: () {
                       HapticFeedback.vibrate();

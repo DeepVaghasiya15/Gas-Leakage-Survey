@@ -150,10 +150,10 @@ class _FormFillState extends State<FormFill> {
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
-        title: Text("Raise Ticket"),
+        title: const Text("Raise Ticket"),
         backgroundColor: Color(0xFFEFFF00),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (selectedOptionArray.isNotEmpty) {
               // Remove the last item from selectedOptionArray
@@ -186,19 +186,19 @@ class _FormFillState extends State<FormFill> {
                 TextFormField(
                   controller: mainAreaController,
                   cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   textCapitalization: TextCapitalization.characters,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')), // Allow only uppercase characters
                   ],
                   decoration: InputDecoration(
                     labelText: 'Main Area',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color(0xFFEFFF00),
                         width: 2.0,
                       ),
@@ -218,20 +218,20 @@ class _FormFillState extends State<FormFill> {
                 //Sub Area / Location
                 TextField(
                   controller: subAreaController,
-                  cursorColor: Color(0xFF31363F),
-                  style: TextStyle(color: Colors.white),
+                  cursorColor: const Color(0xFF31363F),
+                  style: const TextStyle(color: Colors.white),
                   textCapitalization: TextCapitalization.characters,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')), // Allow only uppercase characters
                   ],
                   decoration: InputDecoration(
                     labelText: 'Sub Area / Location',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color(0xFFEFFF00),
                         width: 2.0,
                       ),
@@ -245,16 +245,16 @@ class _FormFillState extends State<FormFill> {
                 //DP-IR Reading when leak detected first
                 TextField(
                   controller: dpIrFirstController,
-                  cursorColor: Color(0xFF31363F),
-                  style: TextStyle(color: Colors.white),
+                  cursorColor: const Color(0xFF31363F),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'DP-IR Reading when leak detected first',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color(0xFFEFFF00),
                         width: 2.0,
                       ),
@@ -268,16 +268,16 @@ class _FormFillState extends State<FormFill> {
                 //DP-IR Reading using Bar Hole probe
                 TextField(
                   controller: dpIrBarController,
-                  cursorColor: Color(0xFF31363F),
-                  style: TextStyle(color: Colors.white),
+                  cursorColor: const Color(0xFF31363F),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'DP-IR Reading using Bar Hole probe',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide:const  BorderSide(
                         color: Color(0xFFEFFF00),
                         width: 2.0,
                       ),
@@ -290,8 +290,8 @@ class _FormFillState extends State<FormFill> {
                 ),
                 TextField(
                   controller: rmldFirstController,
-                  cursorColor: Color(0xFF31363F),
-                  style: TextStyle(color: Colors.white),
+                  cursorColor:const  Color(0xFF31363F),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'RMLD Reading when leak detected first',
                     labelStyle: TextStyle(color: Colors.grey),
@@ -299,7 +299,7 @@ class _FormFillState extends State<FormFill> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color(0xFFEFFF00),
                         width: 2.0,
                       ),
@@ -351,7 +351,7 @@ class _FormFillState extends State<FormFill> {
                         }
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     ElevatedButton.icon(
@@ -363,7 +363,7 @@ class _FormFillState extends State<FormFill> {
                       ),
                       label: Text(
                         previewCompletedVideo ? 'Done' : 'Video',
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         textAlign: TextAlign.center,
                       ),
                       style: ElevatedButton.styleFrom(
@@ -372,7 +372,7 @@ class _FormFillState extends State<FormFill> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        minimumSize: Size(50, 50),
+                        minimumSize: const Size(50, 50),
                       ),
                       onPressed: () {
                         if (!previewCompletedVideo) {
@@ -396,7 +396,7 @@ class _FormFillState extends State<FormFill> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () async {
                     int count = 0;
@@ -466,14 +466,14 @@ class _FormFillState extends State<FormFill> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontSize: 24),
-                    minimumSize: Size.fromHeight(50),
+                    textStyle: const TextStyle(fontSize: 24),
+                    minimumSize: const Size.fromHeight(50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    backgroundColor: Color(0xFF1877F2),
+                    backgroundColor: const Color(0xFF1877F2),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Submit',
                     style: TextStyle(color: Colors.white),
                   ),

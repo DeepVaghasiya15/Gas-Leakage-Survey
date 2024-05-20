@@ -29,7 +29,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   @override
   void initState() {
     super.initState();
-    recordingTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    recordingTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (isRecording) {
         setState(() {
           recordingTimeSeconds++;
@@ -79,20 +79,20 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF292C3D),
+      backgroundColor: const Color(0xFF292C3D),
       appBar: AppBar(
-        title: Text('Record a video'),
-        backgroundColor: Color(0xFFEFFF00),
+        title: const Text('Record a video'),
+        backgroundColor: const Color(0xFFEFFF00),
       ),
       body: Column(
         children: [
           Expanded(child: CameraPreview(widget.controller)),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'Recording : ${_formatTime(recordingTimeSeconds)}',
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
               HapticFeedback.vibrate();
@@ -115,13 +115,13 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              minimumSize: Size(40, 40),
+              minimumSize: const Size(40, 40),
             ),
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 isRecording ? 'Stop Recording' : 'Start Recording',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -129,7 +129,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ],
@@ -193,7 +193,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Preview Video',
           style: TextStyle(color: Colors.white),
         ),
@@ -209,8 +209,8 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
               aspectRatio: _controller.value.aspectRatio,
               child: VideoPlayer(_controller),
             )
-                : CircularProgressIndicator(),
-            SizedBox(height: 20),
+                : const CircularProgressIndicator(),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -218,8 +218,8 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.refresh, color: Colors.black),
-                  label: Text(
+                  icon: const Icon(Icons.refresh, color: Colors.black),
+                  label: const Text(
                     'Record Again',
                     style: TextStyle(color: Colors.black),
                     textAlign: TextAlign.center,
@@ -232,7 +232,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                     minimumSize: Size(50, 50),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton.icon(
@@ -242,7 +242,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -264,7 +264,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                     }
                   },
                   icon: Icon(Icons.check, color: Colors.black),
-                  label: Text(
+                  label: const Text(
                     'Proceed',
                     style: TextStyle(color: Colors.black),
                     textAlign: TextAlign.center,
@@ -274,7 +274,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    minimumSize: Size(50, 50),
+                    minimumSize: const Size(50, 50),
                   ),
                 ),
               ],

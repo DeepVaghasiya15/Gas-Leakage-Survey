@@ -5,6 +5,7 @@ String baseUrl = 'https://picarro-backend.onrender.com';
 String loginEndpoint = '/clients/login';
 String createTicketEndpoint = '/tickets/create';
 String getUserEndPoint = '/employee/all';
+String passAllCoordinatesEndPoint = '/employee/coordinates';
 
 const OPENWEATHER_API_KEY = "640b74138a4b83ff1bf4f78ddf113b93";
 
@@ -18,6 +19,7 @@ String? weatherTemperature = "";
 String? organizationId = "dummyOrganizationText";
 String? createBy = "";
 String? assignTo = "Assign To";
+String? projectId = "";
 
 List<String> DataFields = [
   'Type of Leak',

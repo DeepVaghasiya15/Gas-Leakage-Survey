@@ -29,15 +29,15 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
-        title: Text('Take a picture'),
-        backgroundColor: Color(0xFFEFFF00),
+        title: const Text('Take a picture'),
+        backgroundColor: const Color(0xFFEFFF00),
       ),
       body: CameraPreview(widget.controller),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 30.0),
+        padding: const EdgeInsets.only(bottom: 30.0),
         child: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.camera,
             color: Colors.white,
             size: 50,
@@ -94,18 +94,18 @@ class PreviewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFF292C3D),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Preview Image',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xFF292C3D),
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: const Color(0xFF292C3D),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.file(File(imagePath)),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -114,8 +114,8 @@ class PreviewScreen extends StatelessWidget {
                   // Retake the picture
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.refresh, color: Colors.black),
-                label: Text(
+                icon: const Icon(Icons.refresh, color: Colors.black),
+                label: const Text(
                   'Take Again',
                   style: TextStyle(color: Colors.black),
                   textAlign: TextAlign.center,
@@ -128,7 +128,7 @@ class PreviewScreen extends StatelessWidget {
                   minimumSize: Size(50, 50),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               ElevatedButton.icon(
                 onPressed: () async {
                   int countPhoto = 0;
@@ -137,7 +137,7 @@ class PreviewScreen extends StatelessWidget {
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(), // Show loading indicator
                       );
                     },
@@ -174,7 +174,7 @@ class PreviewScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  minimumSize: Size(50, 50),
+                  minimumSize: const Size(50, 50),
                 ),
               ),
             ],

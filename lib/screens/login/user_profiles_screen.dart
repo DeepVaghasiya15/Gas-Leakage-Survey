@@ -58,7 +58,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           future: _userListFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
@@ -70,7 +70,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     onTap: () {
                       // Pass selected user name to createBy variable
                       createBy = snapshot.data![index];
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(isSurveyInProgress: false,)));
                     },
                   );
                 },

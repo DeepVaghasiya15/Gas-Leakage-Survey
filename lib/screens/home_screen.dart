@@ -142,20 +142,22 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   void _printCoordinatesArray() {
     List<Map<String, double>> coordinatesArray = _recordedLocations.map((location) {
-      return {'latitude': location.latitude, 'longitude': location.longitude};
-    }).toList();
+      return {location.latitude, location.longitude};
+    }).cast<Map<String, double>>().toList();
     print(coordinatesArray);
   }
 
-  Future<List<LatLng>> _sendCoordinatesToServer(List<LatLng> coordinates) async {
-    final url = 'https://97b2-2401-4900-1f3e-8fff-00-202-7626.ngrok-free.app/';
+  Future<List<LatLng>> _sendCoordinatesToServer(List<LatLng> coordinates, String organizationId, String createdBy) async {
+    final url = '$baseUrl$passAllCoordinatesEndPoint';
     final headers = <String, String>{
       'Content-Type': 'application/json',
     };
     final body = jsonEncode({
       'data': coordinates.map((coord) => {
+        "organization_id": projectId,
         "latitude": coord.latitude,
         "longitude": coord.longitude,
+        "created_by": createBy,
       }).toList(),
     });
 
@@ -258,7 +260,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       _isRecording = false; // Update _isRecording state to false
     });
     _printCoordinatesArray();
-    _sendCoordinatesToServer(_recordedLocations).then((updatedLatLngCoordinates) {
+    _sendCoordinatesToServer(_recordedLocations, organizationId!, createBy!)
+        .then((updatedLatLngCoordinates) {
       // Update UI with the updated coordinates received from the server
       setState(() {
         // Clear previous recorded locations and add updated coordinates
@@ -559,6 +562,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                   ),
                                 ),
                               );
+                              _isPaused = true;
                               if (_currentPosition != null) {
                                 double latitude = _currentPosition!.latitude;
                                 double longitude = _currentPosition!.longitude;

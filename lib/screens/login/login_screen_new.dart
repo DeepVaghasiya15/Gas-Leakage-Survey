@@ -20,11 +20,12 @@ class LogInNew extends StatefulWidget {
 
 class _LogInNewState extends State<LogInNew> {
 
-  TextEditingController _phoneController = TextEditingController(text: "888");
-  TextEditingController _passwordController = TextEditingController(text: "123");
-  // final _phoneController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  // TextEditingController _phoneController = TextEditingController(text: "888");
+  // TextEditingController _passwordController = TextEditingController(text: "123");
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _passwordVisible = false;
+
 
   @override
   void dispose() {
@@ -36,10 +37,11 @@ class _LogInNewState extends State<LogInNew> {
   Future<void> _login() async {
     final phoneNumber = _phoneController.text.trim();
     final password = _passwordController.text.trim();
+    projectId = _phoneController.text;
 
     if (phoneNumber.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter a phone number and password')),
+        const SnackBar(content: Text('Please enter a phone number and password')),
       );
       return;
     }
@@ -75,11 +77,6 @@ class _LogInNewState extends State<LogInNew> {
         final secureStorage = FlutterSecureStorage();
         await secureStorage.write(key: 'token', value: token);
 
-        // Navigate to the home screen.
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => HomeScreen(isSurveyInProgress: false,)),
-        // );
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
         SharedPreferencesHelper.saveLoginState(true);
       } else {
@@ -99,7 +96,7 @@ class _LogInNewState extends State<LogInNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF292C3D),
+      backgroundColor: const Color(0xFF292C3D),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -132,9 +129,9 @@ class _LogInNewState extends State<LogInNew> {
                   ),
                 ),
                 const SizedBox(height: 1),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                  child: const Align(
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.0),
+                  child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Please sign in to continue.",
@@ -151,7 +148,7 @@ class _LogInNewState extends State<LogInNew> {
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: TextField(
                     controller: _phoneController,
-                    keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.phone,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       labelText: 'Project ID',
