@@ -7,6 +7,7 @@ import 'package:gas_leakage_survey/screens/home_screen.dart';
 import 'package:gas_leakage_survey/screens/login/user_profiles_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gas_leakage_survey/model/tokenModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/raise_ticket_data.dart';
 import '../../shared_preference.dart';
 
@@ -25,13 +26,28 @@ class _LogInNewState extends State<LogInNew> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _passwordVisible = false;
+  bool _saveCredentials = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadCredentials();
+  }
 
   @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _phoneController.text = prefs.getString('savedProjectId') ?? '';
+      _passwordController.text = prefs.getString('savedPassword') ?? '';
+      _saveCredentials = prefs.getBool('saveCredentials') ?? false;
+    });
   }
 
   Future<void> _login() async {
@@ -76,6 +92,18 @@ class _LogInNewState extends State<LogInNew> {
         // Store the token in the secure storage.
         final secureStorage = FlutterSecureStorage();
         await secureStorage.write(key: 'token', value: token);
+
+        if (_saveCredentials) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('savedProjectId', phoneNumber);
+          await prefs.setString('savedPassword', password);
+          await prefs.setBool('saveCredentials', true);
+        } else {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.remove('savedProjectId');
+          await prefs.remove('savedPassword');
+          await prefs.setBool('saveCredentials', false);
+        }
 
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
         SharedPreferencesHelper.saveLoginState(true);
@@ -202,7 +230,27 @@ class _LogInNewState extends State<LogInNew> {
                     },
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _saveCredentials,
+                        onChanged: (bool? newValue) {
+                          setState(() {
+                            _saveCredentials = newValue ?? false;
+                          });
+                        },
+                      ),
+                      const Text(
+                        'Remember me',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 35),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: MaterialButton(
