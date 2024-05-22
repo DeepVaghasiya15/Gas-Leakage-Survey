@@ -27,13 +27,15 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
       return Container();
     }
     return Scaffold(
-      backgroundColor: Color(0xFF292C3D),
+      backgroundColor: const Color(0xFF292C3D),
       appBar: AppBar(
         title: const Text('Take a picture'),
         backgroundColor: const Color(0xFFEFFF00),
       ),
       body: CameraPreview(widget.controller),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
+      //Take Photo button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: IconButton(
@@ -82,6 +84,7 @@ class PreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // Logic of sending image to firebase
     Future<String> uploadImage(File imageFile) async {
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference ref = storage.ref().child("images/${DateTime.now().toString()}");
@@ -129,6 +132,7 @@ class PreviewScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
+              // Proceed button
               ElevatedButton.icon(
                 onPressed: () async {
                   int countPhoto = 0;
@@ -179,7 +183,7 @@ class PreviewScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

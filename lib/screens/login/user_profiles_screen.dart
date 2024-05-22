@@ -21,6 +21,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _userListFuture = fetchUserList();
   }
 
+  // Fetch Userlist from backend
   Future<List<String>> fetchUserList() async {
     final response = await http.get(Uri.parse('$baseUrl$getUserEndPoint'));
 
@@ -52,6 +53,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         centerTitle: true,
         backgroundColor: const Color(0xFFEFFF00),
       ),
+
+      // Get user from api
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 12),
         child: FutureBuilder<List<String>>(
@@ -70,7 +73,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     onTap: () {
                       // Pass selected user name to createBy variable
                       createBy = snapshot.data![index];
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(isSurveyInProgress: false,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(isSurveyInProgress: false)));
                     },
                   );
                 },
@@ -92,7 +95,8 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // Execute onTap callback when tapped
+      onTap: onTap,
+      // Cell of user
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         padding: const EdgeInsets.all(15),
@@ -109,6 +113,7 @@ class UserCard extends StatelessWidget {
         ),
         child: Row(
           children: [
+            // Avatar of user
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.grey[200],
@@ -119,6 +124,7 @@ class UserCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 20),
+            // User name
             Text(
               userName,
               style: const TextStyle(

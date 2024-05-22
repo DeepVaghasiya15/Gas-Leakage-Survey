@@ -10,12 +10,7 @@ import 'package:flutter/services.dart';
 
 String? selectedOption;
 List<String> selectedOptionArray = [];
-// class RaiseTicketScreenOptions extends StatefulWidget {
-//   const RaiseTicketScreenOptions({Key? key}) : super(key: key);
-//
-//   @override
-//   State<RaiseTicketScreenOptions> createState() => _RaiseTicketScreenOptionsState();
-// }
+
 class RaiseTicketScreenOptions extends StatefulWidget {
   final bool isSurveyInProgress;
 
@@ -47,6 +42,9 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
             Navigator.pop(context);
           },
         ),
+
+        // If user want to see dropdowns
+
         // actions: [
         //   IconButton(
         //     icon: Icon(Icons.splitscreen), // You can use any icon here
@@ -65,7 +63,8 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
             child: SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 80, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+                // Top Image
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -73,13 +72,16 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                     const SizedBox(
                       height: 40,
                     ),
+
+                    // Text Data Fields
                     Text(DataFields[0],
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white)),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // Underground button
                         SizedBox(
                           width: 140, // Set the width of the buttons
                           height: 130, // Set the height of the buttons
@@ -124,6 +126,7 @@ class _RaiseTicketScreenOptionsState extends State<RaiseTicketScreenOptions> {
                           ),
                         ),
                         const SizedBox(width: 15),
+                        // Aboveground Button
                         SizedBox(
                           width: 145, // Set the width of the buttons
                           height: 130, // Set the height of the buttons

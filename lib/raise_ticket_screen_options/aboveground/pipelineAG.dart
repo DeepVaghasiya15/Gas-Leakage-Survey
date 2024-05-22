@@ -10,12 +10,12 @@ class PipelineAG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
+    backgroundColor: const Color(0xFF292C3D),
     appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
+      title: const Text("Raise Ticket"),
+      backgroundColor: const Color(0xFFEFFF00),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           if (selectedOptionArray.isNotEmpty) {
             // Remove the last item from selectedOptionArray
@@ -28,28 +28,28 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top:100.0,right: 80,left: 80),
+      padding: const EdgeInsets.only(top:70.0,right: 80,left: 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             DataFields[3],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 170),
+          const SizedBox(height: 160),
           GridView.count(
-            crossAxisCount: 1, // 2 columns
+            crossAxisCount: 1,
             shrinkWrap: true,
             // childAspectRatio: 1.5,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: pipelineAG.asMap().entries.map((entry) {
               int index = entry.key;
               String type = entry.value;
               String iconPath = pipelineAGIcon[index];
 
               return Padding(
-                padding: EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(6.0),
                 child: MaterialButton(
                   onPressed: () {
                     HapticFeedback.vibrate();
@@ -57,9 +57,9 @@ Widget build(BuildContext context) {
                     print('Button pressed: $type');
                     selectedOptionArray.add('$type');
                     print(selectedOptionArray);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PressureOfPipelineAG()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PressureOfPipelineAG()));
                   },
-                  color: Color(0xFFEFFF00),
+                  color: const Color(0xFFEFFF00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -73,10 +73,10 @@ Widget build(BuildContext context) {
                         iconPath, // Use the icon path from the list
                         height: 40, // Adjust height of the icon as needed
                       ),
-                      SizedBox(height: 5), // Add some space between icon and text
+                      const SizedBox(height: 5),
                       Text(
                         type,
-                        style: TextStyle(fontSize: 17, color: Colors.black),
+                        style: const TextStyle(fontSize: 17, color: Colors.black),
                         textAlign: TextAlign.center,
                       ),
                     ],

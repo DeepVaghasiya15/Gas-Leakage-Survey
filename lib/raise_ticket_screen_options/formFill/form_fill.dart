@@ -27,6 +27,7 @@ class _FormFillState extends State<FormFill> {
   late String token;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Define a GlobalKey
 
+  // Controller of all TextField
   final mainAreaController = TextEditingController();
   final subAreaController = TextEditingController();
   final dpIrFirstController = TextEditingController();
@@ -39,6 +40,7 @@ class _FormFillState extends State<FormFill> {
     initializeCamera();
   }
 
+  // Initialize camera
   Future<void> initializeCamera() async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
@@ -59,6 +61,7 @@ class _FormFillState extends State<FormFill> {
 
   @override
   Widget build(BuildContext context) {
+    // Create ticket and send data to backend
     Future<void> createTicket(List<String> selectedOptionArray) async {
       try {
         String url = '$baseUrl$createTicketEndpoint';
@@ -183,6 +186,7 @@ class _FormFillState extends State<FormFill> {
                   ),
                 ),
                 const SizedBox(height: 40),
+                // Main Area
                 TextFormField(
                   controller: mainAreaController,
                   cursorColor: Colors.white,
@@ -288,6 +292,7 @@ class _FormFillState extends State<FormFill> {
                 const SizedBox(
                   height: 20,
                 ),
+                // RMLD Reading when leak detected first
                 TextField(
                   controller: rmldFirstController,
                   cursorColor:const  Color(0xFF31363F),
@@ -310,9 +315,11 @@ class _FormFillState extends State<FormFill> {
                 const SizedBox(
                   height: 20,
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Photo Button
                     ElevatedButton.icon(
                       icon: Icon(
                         previewCompleted ? Icons.done : Icons.photo,
@@ -354,6 +361,8 @@ class _FormFillState extends State<FormFill> {
                     const SizedBox(
                       width: 20,
                     ),
+
+                    // Video Button
                     ElevatedButton.icon(
                       icon: Icon(
                         previewCompletedVideo
@@ -397,12 +406,15 @@ class _FormFillState extends State<FormFill> {
                   ],
                 ),
                 const SizedBox(height: 30),
+
+                // Submit button
                 ElevatedButton(
                   onPressed: () async {
                     int count = 0;
                     if (_formKey.currentState!.validate()) {
                       HapticFeedback.vibrate();
 
+                      // Adding details to selectedOptionArray which is written in TextField
                       selectedOptionArray.add(mainAreaController.text);
                       selectedOptionArray.add(subAreaController.text);
                       selectedOptionArray.add(dpIrFirstController.text);

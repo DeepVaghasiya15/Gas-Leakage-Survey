@@ -28,7 +28,7 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top:100.0,right: 20,left: 20),
+      padding: const EdgeInsets.only(top:70.0,right: 20,left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -37,7 +37,7 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 70),
+          SizedBox(height: 40),
           GridView.count(
             crossAxisCount: 1, // 2 columns
             shrinkWrap: true,

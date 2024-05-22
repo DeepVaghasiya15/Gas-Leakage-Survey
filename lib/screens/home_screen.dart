@@ -10,7 +10,6 @@ import 'package:gas_leakage_survey/raise_ticket_screen_options/formFill/take_vid
 import 'package:gas_leakage_survey/screens/raise_ticket_screen.dart';
 import 'package:gas_leakage_survey/screens/raise_ticket_screen_options.dart';
 import 'package:gas_leakage_survey/screens/side_drawer/inbuilt_drawer.dart';
-import 'package:gas_leakage_survey/screens/side_drawer/side_drawer_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,6 +21,7 @@ import '../raise_ticket_screen_options/formFill/take_picture_screen.dart';
 import 'package:geocoding/geocoding.dart';
 
 
+// Get coordinates of location
 class LocationCoordinate {
   final double latitude;
   final double longitude;
@@ -59,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   final WeatherFactory _wf = WeatherFactory(OPENWEATHER_API_KEY);
   Weather? _weather;
   bool _isSurveyStoppedDueToTicket = false;
+  double _totalDistance = 0.0;
+
 
   @override
   bool get wantKeepAlive => true;
@@ -96,27 +98,39 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     setState(() {});
   }
 
+  //Location updates starts when click on Start Survey
   void _startLocationUpdates() {
     _positionStreamSubscription = Geolocator.getPositionStream().listen(
           (Position position) {
-        if (mounted) { // Check if widget is still mounted
+        if (mounted && _isRecording && !_isPaused) { // Check if widget is still mounted, recording, and not paused
           setState(() {
             _currentPosition = position;
           });
-          if (_isRecording) {
-            _recordedLocations.add(LatLng(position.latitude, position.longitude));
-            _updateMarkerPosition();
+          if (_recordedLocations.isNotEmpty) {
+            final lastLocation = _recordedLocations.last;
+            final newLocation = LatLng(position.latitude, position.longitude);
+            final distance = Geolocator.distanceBetween(
+              lastLocation.latitude,
+              lastLocation.longitude,
+              newLocation.latitude,
+              newLocation.longitude,
+            );
+            _totalDistance += distance;
           }
+          _recordedLocations.add(LatLng(position.latitude, position.longitude));
+          _updateMarkerPosition();
         }
       },
       onError: (error) => print("Error in location updates: $error"),
     );
   }
 
+  //Stop location update when click on Stop Button
   void _stopLocationUpdates() {
     _positionStreamSubscription?.cancel();
   }
 
+  //Get cuurent Location
   Future<void> _getCurrentLocation() async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
@@ -140,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  //Print all the coordinates from Survey Started to Stop
   void _printCoordinatesArray() {
     List<Map<String, double>> coordinatesArray = _recordedLocations.map((location) {
       return {location.latitude, location.longitude};
@@ -147,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     print(coordinatesArray);
   }
 
+  //Sending all the Coordinates to server
   Future<List<LatLng>> _sendCoordinatesToServer(List<LatLng> coordinates, String organizationId, String createdBy) async {
     final url = '$baseUrl$passAllCoordinatesEndPoint';
     final headers = <String, String>{
@@ -185,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  //Toggle Recording for pause and resume
   void _toggleRecording() {
     setState(() {
       _isRecording = !_isRecording;
@@ -197,8 +214,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  // Start Recording coordinates
   void _startRecording() {
     _recordedLocations.clear();
+    _totalDistance = 0.0; // Reset the total distance
     if (_currentPosition != null) {
       _recordedLocations.add(LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
     }
@@ -209,17 +228,18 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     });
   }
 
+  // Pause Recording coordinates
   void _pauseRecording() {
-    print("Recording paused");
     _stopLocationUpdates();
     _polylineTimer?.cancel();
     setState(() {
       _isPaused = true;
-      _storedPolylines;
+      _storedPolylines.addAll(_polylines);
       _polylines.clear();
     });
   }
 
+  // Resume Recording coordinates
   void _resumeRecording() {
     print("Recording resumed");
     _startLocationUpdates(); // Resume location updates
@@ -239,6 +259,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     });
   }
 
+  // Toggle pause Recording Buttons
   void _togglePauseResume() {
     if (_isPaused) {
       _resumeRecording(); // If paused, resume recording
@@ -252,10 +273,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     print('Pause/Resume Toggled');
   }
 
+  // Stop Recording coordinates
   void _stopRecording() {
     _stopLocationUpdates();
     _polylineTimer?.cancel();
-    // _updatePolylines();
     setState(() {
       _isRecording = false; // Update _isRecording state to false
     });
@@ -276,6 +297,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     });
   }
 
+  //Updating polylines on map (Red colour line)
   void _updatePolylines() {
     if (_isPaused) {
       return; // If recording is paused, do not update polylines
@@ -292,6 +314,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  // Updating Polygons (not using currently)
   void _updatePolygons() {
     _polygons.clear();
 
@@ -310,6 +333,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     ));
   }
 
+  // Update Marker position (blue dot)
   void _updateMarkerPosition() async {
     print('Updating marker position:');
     print('Current Latitude: ${_currentPosition!.latitude}');
@@ -332,6 +356,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  // Fetch weather by current lat & long
   Future<void> fetchWeather(double latitude, double longitude) async {
     Weather? weather = await _wf.currentWeatherByLocation(latitude, longitude);
     if (weather != null) {
@@ -343,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
-
+  // Fetch address by current lat & long
   Future<String?> fetchAddress(double latitude, double longitude) async {
     try {
       // Retrieve a list of placemarks for the provided coordinates
@@ -373,13 +398,14 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
   }
 
+  // Survey option dialog box (not using currently)
   void _showSurveyOptionsDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Survey Paused'),
-          content: Text('Do you want to continue the survey or stop it?'),
+          title: const Text('Survey Paused'),
+          content: const Text('Do you want to continue the survey or stop it?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -468,6 +494,27 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     // polygons: _polygons,
                   ),
                 ),
+
+                // Live Distance During survey
+                Positioned(
+                  bottom: 80,
+                  left: 65,
+                  right: 65,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'Total Distance: ${(_totalDistance / 1000).toStringAsFixed(2)} km',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+
+                // Start Leakage Survey button
                 Positioned(
                   bottom: 20,
                   left: 65,
@@ -496,6 +543,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     ),
                   ),
                 ),
+
+                // Three buttons (Stop, Pause/Resume, Raise Ticket)
                 Positioned(
                   bottom: 20,
                   left: 5,
@@ -505,6 +554,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        // Stop Button
                         Expanded(
                           // fit: FlexFit.tight,
                           flex: 4,
@@ -522,7 +572,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10,),
+                        const SizedBox(width: 10),
+                        // Pause/Resume Button
                         Expanded(
                           flex: 5,
                           child: ElevatedButton.icon(
@@ -546,7 +597,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(width: 10),
+                        // Raise ticket button
                         Expanded(
                           flex: 4,
                           child: ElevatedButton(
@@ -578,14 +630,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                 }
                                 addressAsPerGoogle = address;
                                 print(addressAsPerGoogle);
-                                // String? address = await getAddress(latitude, longitude); // Corrected this line
-                                // if (address != null) {
-                                //   print('Address: $address');
-                                // } else {
-                                //   print('Address not available.');
-                                // }
-                                // print(getAddress(latitude, longitude));
-
 
                                 //Fetch Weather
                                 await fetchWeather(latitude, longitude);
@@ -621,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                 ),
               ],
             )
-          : Center(
+          : const Center(
               child: CircularProgressIndicator(),
             ),
     );

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gas_leakage_survey/screens/home_screen.dart';
-import 'package:gas_leakage_survey/screens/login/login_screen.dart';
+import 'package:gas_leakage_survey/screens/login/login_screen_new.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Start a timer to navigate to the HomeScreen after 5 seconds
     Timer(Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => LogIn()),
+        MaterialPageRoute(builder: (_) => LogInNew()),
       );
     });
     // Start a timer to animate the opacity of the text after 1 second

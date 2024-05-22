@@ -29,6 +29,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
   @override
   void initState() {
     super.initState();
+    // Automatically stops recording at 10 seconds
     recordingTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (isRecording) {
         setState(() {
@@ -54,6 +55,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
     recordingTimer.cancel();
   }
 
+  // Stop recording
   void stopRecording() async {
     try {
       final XFile recordedVideo = await widget.controller.stopVideoRecording();
@@ -88,6 +90,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
         children: [
           Expanded(child: CameraPreview(widget.controller)),
           const SizedBox(height: 20),
+          // Recording time
           Text(
             'Recording : ${_formatTime(recordingTimeSeconds)}',
             style: const TextStyle(fontSize: 16, color: Colors.white),
@@ -137,6 +140,7 @@ class _TakeVideoScreenState extends State<TakeVideoScreen> {
     );
   }
 
+  // Format time
   String _formatTime(int seconds) {
     int hours = seconds ~/ 3600;
     int minutes = (seconds % 3600) ~/ 60;
@@ -176,6 +180,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
 
   @override
   Widget build(BuildContext context) {
+    // Upload video to firebase
     Future<String> uploadVideo(File file) async {
       try {
         FirebaseStorage storage = FirebaseStorage.instance;
@@ -191,14 +196,14 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
     }
 
     return Scaffold(
-      backgroundColor: Color(0xFF292C3D),
+      backgroundColor: const Color(0xFF292C3D),
       appBar: AppBar(
         title: const Text(
           'Preview Video',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xFF292C3D),
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: const Color(0xFF292C3D),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Center(
         child: Column(
@@ -229,7 +234,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    minimumSize: Size(50, 50),
+                    minimumSize: const Size(50, 50),
                   ),
                 ),
                 const SizedBox(
@@ -263,7 +268,7 @@ class _PreviewScreen2State extends State<PreviewScreen2> {
                       print('Error uploading file: $e');
                     }
                   },
-                  icon: Icon(Icons.check, color: Colors.black),
+                  icon: const Icon(Icons.check, color: Colors.black),
                   label: const Text(
                     'Proceed',
                     style: TextStyle(color: Colors.black),

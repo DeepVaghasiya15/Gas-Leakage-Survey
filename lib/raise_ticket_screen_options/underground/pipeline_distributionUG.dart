@@ -13,12 +13,12 @@ class PipelineDistributionUG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
+    backgroundColor: const Color(0xFF292C3D),
     appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
+      title: const Text("Raise Ticket"),
+      backgroundColor: const Color(0xFFEFFF00),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           if (selectedOptionArray.isNotEmpty) {
             // Remove the last item from selectedOptionArray
@@ -37,21 +37,21 @@ Widget build(BuildContext context) {
         children: [
           Text(
             DataFields[5],
-            style: TextStyle(fontSize: 37, fontWeight: FontWeight.bold,color: Colors.white),
+            style: const TextStyle(fontSize: 37, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           GridView.count(
             crossAxisCount: 2, // 2 columns
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: pipelineDistributionUG.asMap().entries.map((entry) {
               int index = entry.key;
               String type = entry.value;
               String iconPath = pipelineDistributionUGIcon[index];
 
               return Padding(
-                padding: EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(6.0),
                 child: MaterialButton(
                   onPressed: () {
                     HapticFeedback.vibrate();
@@ -63,30 +63,30 @@ Widget build(BuildContext context) {
                     if (type == 'Service') {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DiameterOfPipelineUGService()),
+                        MaterialPageRoute(builder: (context) => const DiameterOfPipelineUGService()),
                       );
                     } else if (type == 'Distribution') {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DiameterOfPipelineUGDistribution()),
+                        MaterialPageRoute(builder: (context) => const DiameterOfPipelineUGDistribution()),
                       );
                       // Navigate to Commercial screen
                     } else if (type == 'Branch') {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DiameterOfPipelineUGBranch()),
+                        MaterialPageRoute(builder: (context) => const DiameterOfPipelineUGBranch()),
                       );
                       // Navigate to Industrial screen
                     } else if (type == 'Mains') {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DiameterOfPipelineUGMains()),
+                        MaterialPageRoute(builder: (context) => const DiameterOfPipelineUGMains()),
                       );
                       // Navigate to Open Area screen
                     }
 
                   },
-                  color: Color(0xFFEFFF00),
+                  color: const Color(0xFFEFFF00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -100,10 +100,10 @@ Widget build(BuildContext context) {
                         iconPath,
                         height: 40,
                       ),
-                      SizedBox(height: 5), // Add some space between icon and text
+                      const SizedBox(height: 5), // Add some space between icon and text
                       Text(
                         type,
-                        style: TextStyle(fontSize: 17, color: Colors.black),
+                        style: const TextStyle(fontSize: 17, color: Colors.black),
                       ),
                     ],
                   ),

@@ -8,7 +8,6 @@ import '../underground/source_of_leakUG.dart';
 class DiameterOfPipelineAGService extends StatelessWidget {
   const DiameterOfPipelineAGService({Key? key}) : super(key: key);
 
-
 @override
 Widget build(BuildContext context) {
   return Scaffold(
@@ -30,7 +29,7 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top: 60.0, right: 20, left: 20),
+      padding: const EdgeInsets.only(top: 50.0, right: 20, left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -39,7 +38,7 @@ Widget build(BuildContext context) {
             style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 70),
+          const SizedBox(height: 50),
           GridView.count(
             crossAxisCount: 2, // 2 columns
             shrinkWrap: true,
@@ -48,9 +47,11 @@ Widget build(BuildContext context) {
               // Generate a list of pairs of texts and arrays
               diameterOfPipelineAGService.length,
                   (index) {
+                // Number
                 String type = diameterOfPipelineAGServiceNumber[index];
+                // Unit
                 String otherArray = diameterOfPipelineAGService[
-                index]; // Assuming you have another array to pair with each text
+                index];
 
                 return Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -79,13 +80,13 @@ Widget build(BuildContext context) {
                       children: [
                         Text(
                           type,
-                          style: TextStyle(fontSize: 40, color: Colors.black),
+                          style: const TextStyle(fontSize: 40, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 1),
+                        const SizedBox(height: 1),
                         Text(
                           otherArray,
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],

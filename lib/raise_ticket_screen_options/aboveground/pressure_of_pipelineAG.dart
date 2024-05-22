@@ -7,54 +7,58 @@ import '../../screens/raise_ticket_screen_options.dart';
 class PressureOfPipelineAG extends StatelessWidget {
   const PressureOfPipelineAG({Key? key}) : super(key: key);
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
-    appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          if (selectedOptionArray.isNotEmpty) {
-            // Remove the last item from selectedOptionArray
-            selectedOptionArray.removeLast();
-            print(selectedOptionArray);
-          }
-          // Pop the current route from the navigation stack
-          Navigator.pop(context);
-        },
-      ),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.only(top: 30.0, right: 20, left: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            DataFields[4],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 30),
-          GridView.count(
-            crossAxisCount: 3, // 2 columns
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: List.generate(
-              // Generate a list of pairs of texts and arrays
-              pressureOfPipelineAG.length,
-                  (index) {
-                String type = pressureOfPipelineAGNumber[index];
-                String otherArray = pressureOfPipelineAG[
-                index];
-                Color buttonColor = index == 0 ? Colors.red : Color(0xFFEFFF00);
-                bool mBar = type == "110" || type == "21";
+  @override
+  Widget build(BuildContext context) {
+    // Get the screen size
+    final screenSize = MediaQuery.of(context).size;
+    final double buttonHeight = screenSize.height * 0.15;
+    final double buttonWidth = screenSize.width * 0.28;
 
-                return Padding(
-                  padding: EdgeInsets.all(6.0),
-                  child: MaterialButton(
+    return Scaffold(
+      backgroundColor: const Color(0xFF292C3D),
+      appBar: AppBar(
+        title: const Text("Raise Ticket"),
+        backgroundColor: const Color(0xFFEFFF00),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (selectedOptionArray.isNotEmpty) {
+              // Remove the last item from selectedOptionArray
+              selectedOptionArray.removeLast();
+              print(selectedOptionArray);
+            }
+            // Pop the current route from the navigation stack
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              DataFields[4],
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: screenSize.width > 600 ? 5 : 3,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: buttonWidth / buttonHeight,
+                ),
+                itemCount: pressureOfPipelineAG.length,
+                itemBuilder: (context, index) {
+                  String type = pressureOfPipelineAGNumber[index];
+                  String otherArray = pressureOfPipelineAG[index];
+                  Color buttonColor = index == 0 ? Colors.red : const Color(0xFFEFFF00);
+                  bool mBar = type == "110" || type == "21";
+
+                  return MaterialButton(
                     onPressed: () {
                       HapticFeedback.vibrate();
                       // Add your onPressed functionality here
@@ -65,7 +69,10 @@ Widget build(BuildContext context) {
                         selectedOptionArray.add('$type Bar');
                       }
                       print(selectedOptionArray);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineDistributionAG()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PipelineDistributionAG()),
+                      );
                     },
                     color: buttonColor,
                     shape: RoundedRectangleBorder(
@@ -73,7 +80,7 @@ Widget build(BuildContext context) {
                     ),
                     elevation: 10,
                     minWidth: double.infinity,
-                    height: 100,
+                    height: buttonHeight,
                     // Increased height to accommodate the icon
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -83,22 +90,21 @@ Widget build(BuildContext context) {
                           style: TextStyle(fontSize: type == '110' ? 28 : 35, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 1),
+                        const SizedBox(height: 5),
                         Text(
                           otherArray,
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

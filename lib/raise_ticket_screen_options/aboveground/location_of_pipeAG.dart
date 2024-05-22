@@ -11,12 +11,12 @@ class LocationOfPipeAG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
+    backgroundColor: const Color(0xFF292C3D),
     appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
+      title: const Text("Raise Ticket"),
+      backgroundColor: const Color(0xFFEFFF00),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           if (selectedOptionArray.isNotEmpty) {
             // Remove the last item from selectedOptionArray
@@ -29,7 +29,7 @@ Widget build(BuildContext context) {
       ),
     ),
     body: Padding(
-      padding: const EdgeInsets.only(top:100.0,right: 20,left: 20),
+      padding: const EdgeInsets.only(top:70.0,right: 20,left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -38,7 +38,7 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 200),
+          const SizedBox(height: 200),
           GridView.count(
             crossAxisCount: 3, // 2 columns
             shrinkWrap: true,

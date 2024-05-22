@@ -11,12 +11,12 @@ class PressureOfPipelineUG extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Color(0xFF292C3D),
+    backgroundColor: const Color(0xFF292C3D),
     appBar: AppBar(
-      title: Text("Raise Ticket"),
-      backgroundColor: Color(0xFFEFFF00),
+      title: const Text("Raise Ticket"),
+      backgroundColor: const Color(0xFFEFFF00),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           if (selectedOptionArray.isNotEmpty) {
             // Remove the last item from selectedOptionArray
@@ -35,25 +35,25 @@ Widget build(BuildContext context) {
         children: [
           Text(
             DataFields[4],
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold,color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           GridView.count(
             crossAxisCount: 3, // 2 columns
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
               // Generate a list of pairs of texts and arrays
               pressureOfPipelineUG.length,
                   (index) {
                 String type = pressureOfPipelineUGNumber[index];
                 String otherArray = pressureOfPipelineUG[index];
-                Color buttonColor = index == 0 ? Colors.red : Color(0xFFEFFF00);
+                Color buttonColor = index == 0 ? Colors.red : const Color(0xFFEFFF00);
                 bool is110 = type == "110";
 
                 return Padding(
-                  padding: EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: MaterialButton(
                     onPressed: () {
                       HapticFeedback.vibrate();
@@ -67,7 +67,7 @@ Widget build(BuildContext context) {
                       }
                       print(selectedOptionArray);
 
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PipelineDistributionUG()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const PipelineDistributionUG()));
                     },
                     color: buttonColor,
                     shape: RoundedRectangleBorder(
@@ -88,10 +88,10 @@ Widget build(BuildContext context) {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 1),
+                        const SizedBox(height: 1),
                         Text(
                           otherArray,
-                          style: TextStyle(fontSize: 17, color: Colors.black),
+                          style: const TextStyle(fontSize: 17, color: Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],
