@@ -249,6 +249,7 @@ class _FormFillState extends State<FormFill> {
                 //DP-IR Reading when leak detected first
                 TextField(
                   controller: dpIrFirstController,
+                  keyboardType: TextInputType.number,
                   cursorColor: const Color(0xFF31363F),
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -272,6 +273,7 @@ class _FormFillState extends State<FormFill> {
                 //DP-IR Reading using Bar Hole probe
                 TextField(
                   controller: dpIrBarController,
+                  keyboardType: TextInputType.number,
                   cursorColor: const Color(0xFF31363F),
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -295,6 +297,7 @@ class _FormFillState extends State<FormFill> {
                 // RMLD Reading when leak detected first
                 TextField(
                   controller: rmldFirstController,
+                  keyboardType: TextInputType.number,
                   cursorColor:const  Color(0xFF31363F),
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
