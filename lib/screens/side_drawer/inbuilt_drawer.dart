@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gas_leakage_survey/data/raise_ticket_data.dart';
 import 'package:gas_leakage_survey/screens/login/login_screen_new.dart';
 import 'package:gas_leakage_survey/screens/side_drawer/drawer_screens/history_screen.dart';
 
@@ -18,13 +19,14 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
         // Drawer Header Logo
         DrawerHeader(
           decoration: const BoxDecoration(
-            color: Color(0xFFEFFF00),
+            // color: Color(0xFF023020),
+            color: Colors.white
           ),
           child: Center(
             child: Image.asset(
               'assets/images/joslerBlack.png',
-              width: 220,
-              height: 220,
+              width: 140,
+              height: 140,
             ),
           ),
         ),
@@ -60,6 +62,7 @@ class _DrawerHomeScreenState extends State<DrawerHomeScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
             ),
             onTap: () {
+              organizationId = "";
               Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInNew()));
             },
           ),

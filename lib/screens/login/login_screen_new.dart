@@ -53,6 +53,7 @@ class _LogInNewState extends State<LogInNew> {
     final phoneNumber = _phoneController.text.trim();
     final password = _passwordController.text.trim();
     projectId = _phoneController.text;
+    organizationId = _phoneController.text;
 
     if (phoneNumber.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(

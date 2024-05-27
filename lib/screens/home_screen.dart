@@ -157,10 +157,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   //Print all the coordinates from Survey Started to Stop
   void _printCoordinatesArray() {
     List<Map<String, double>> coordinatesArray = _recordedLocations.map((location) {
-      return {location.latitude, location.longitude};
-    }).cast<Map<String, double>>().toList();
+      return {'latitude': location.latitude, 'longitude': location.longitude};
+    }).toList();
     print(coordinatesArray);
   }
+
 
   //Sending all the Coordinates to server
   Future<List<LatLng>> _sendCoordinatesToServer(List<LatLng> coordinates, String organizationId, String createdBy) async {
@@ -169,28 +170,45 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       'Content-Type': 'application/json',
     };
     final body = jsonEncode({
-      'data': coordinates.map((coord) => {
-        "organization_id": projectId,
-        "latitude": coord.latitude,
-        "longitude": coord.longitude,
-        "created_by": createBy,
+      'organization_id': organizationId,
+      'created_by': createdBy,
+      'coordinates': coordinates.map((coord) => {
+        'latitude': coord.latitude,
+        'longitude': coord.longitude,
       }).toList(),
     });
 
+    print('Sending coordinates to server...');
+    print('URL: $url');
+    print('Headers: $headers');
+    print('Body: $body');
+
     try {
       final response = await http.post(Uri.parse(url), headers: headers, body: body);
+      print('Server responded with status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode == 200) {
         // Parse the response body
         final responseBody = jsonDecode(response.body);
-        // Assuming the response contains an array of coordinates
-        final updatedCoordinates = List<Map<String, dynamic>>.from(responseBody['data']);
-        // Process the updated coordinates as needed
-        print('Updated coordinates received from server: $updatedCoordinates');
-        // Convert the updated coordinates to LatLng objects
-        final List<LatLng> updatedLatLngCoordinates = updatedCoordinates.map((coord) {
-          return LatLng(coord['latitude'], coord['longitude']);
-        }).toList();
-        return updatedLatLngCoordinates;
+
+        // Assuming the response contains a list of coordinates within 'data'
+        if (responseBody['data'] is List) {
+          final updatedCoordinates = List<Map<String, dynamic>>.from(responseBody['data']);
+
+          // Process the updated coordinates as needed
+          print('Updated coordinates received from server: $updatedCoordinates');
+
+          // Convert the updated coordinates to LatLng objects
+          final List<LatLng> updatedLatLngCoordinates = updatedCoordinates.map((coord) {
+            return LatLng(coord['latitude'], coord['longitude']);
+          }).toList();
+
+          return updatedLatLngCoordinates;
+        } else {
+          print('Failed to parse updated coordinates.');
+          throw Exception('Failed to parse updated coordinates.');
+        }
       } else {
         print('Failed to send coordinates. Status code: ${response.statusCode}');
         throw Exception('Failed to send coordinates. Status code: ${response.statusCode}');
@@ -200,6 +218,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       throw Exception('Error sending coordinates: $e');
     }
   }
+
+
+
 
   //Toggle Recording for pause and resume
   void _toggleRecording() {
@@ -217,7 +238,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   // Start Recording coordinates
   void _startRecording() {
     _recordedLocations.clear();
-    _totalDistance = 0.0; // Reset the total distance
+    _totalDistance = 0.0;
+    totalDistance = "";
     if (_currentPosition != null) {
       _recordedLocations.add(LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
     }
@@ -281,6 +303,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       _isRecording = false; // Update _isRecording state to false
     });
     _printCoordinatesArray();
+    totalDistance = 'Total Distance: ${(_totalDistance / 1000).toStringAsFixed(2)} km';
+    print(totalDistance);
     _sendCoordinatesToServer(_recordedLocations, organizationId!, createBy!)
         .then((updatedLatLngCoordinates) {
       // Update UI with the updated coordinates received from the server

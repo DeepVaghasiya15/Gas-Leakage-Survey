@@ -16,10 +16,11 @@ String? coordinatesOfLeakagePoint = "";
 String? addressAsPerGoogle = "";
 String? windDirectionAndSpeed = "";
 String? weatherTemperature = "";
-String? organizationId = "dummyOrganizationText";
+String? organizationId = "";
 String? createBy = "";
 String? assignTo = "Assign To";
 String? projectId = "";
+String? totalDistance = "";
 
 List<String> DataFields = [
   'Type of Leak',
