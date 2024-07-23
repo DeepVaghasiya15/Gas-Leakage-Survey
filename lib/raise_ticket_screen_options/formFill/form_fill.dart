@@ -34,6 +34,8 @@ class _FormFillState extends State<FormFill> {
   final dpIrBarController = TextEditingController();
   final rmldFirstController = TextEditingController();
 
+  // bool previewCompleted = false; // Flag for photo completion
+  // bool previewCompletedVideo = false; // Flag for video completion
   @override
   void initState() {
     super.initState();
@@ -193,7 +195,7 @@ class _FormFillState extends State<FormFill> {
                   style: const TextStyle(color: Colors.white),
                   textCapitalization: TextCapitalization.characters,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')), // Allow only uppercase characters
+                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9 ]')), // Allow uppercase characters, numbers, and spaces
                   ],
                   decoration: InputDecoration(
                     labelText: 'Main Area',
@@ -208,6 +210,7 @@ class _FormFillState extends State<FormFill> {
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0), // Add padding here
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -216,6 +219,7 @@ class _FormFillState extends State<FormFill> {
                     return null; // Return null if input is valid
                   },
                 ),
+
                 const SizedBox(
                   height: 10,
                 ),
@@ -226,7 +230,7 @@ class _FormFillState extends State<FormFill> {
                   style: const TextStyle(color: Colors.white),
                   textCapitalization: TextCapitalization.characters,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')), // Allow only uppercase characters
+                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9 ]')), // Allow only uppercase characters
                   ],
                   decoration: InputDecoration(
                     labelText: 'Sub Area / Location',
@@ -415,69 +419,79 @@ class _FormFillState extends State<FormFill> {
                   onPressed: () async {
                     int count = 0;
                     if (_formKey.currentState!.validate()) {
-                      HapticFeedback.vibrate();
+                      if (previewCompleted && previewCompletedVideo) {
+                        HapticFeedback.vibrate();
 
-                      // Adding details to selectedOptionArray which is written in TextField
-                      selectedOptionArray.add(mainAreaController.text);
-                      selectedOptionArray.add(subAreaController.text);
-                      selectedOptionArray.add(dpIrFirstController.text);
-                      selectedOptionArray.add(dpIrBarController.text);
-                      selectedOptionArray.add(rmldFirstController.text);
+                        // Adding details to selectedOptionArray which is written in TextField
+                        selectedOptionArray.add(mainAreaController.text);
+                        selectedOptionArray.add(subAreaController.text);
+                        selectedOptionArray.add(dpIrFirstController.text);
+                        selectedOptionArray.add(dpIrBarController.text);
+                        selectedOptionArray.add(rmldFirstController.text);
 
-                      // createTicket(selectedOptionArray as String);
-                      print(selectedOptionArray);
-                      createTicket(selectedOptionArray);
+                        print(selectedOptionArray);
+                        await createTicket(selectedOptionArray);
 
-                      if (selectedOptionArray.isNotEmpty) {
-                        if (selectedOptionArray[0] == 'Underground') {
-                          selectedOptionsDictionary = {
-                            'TypeOfLeak': selectedOptionArray[0],
-                            'ConsumerType': selectedOptionArray[1],
-                            'LeakFirstDetectedThrough': selectedOptionArray[2],
-                            'Pipeline': selectedOptionArray[3],
-                            'PressureOfPipeline': selectedOptionArray[4],
-                            'PipelineDistributionType': selectedOptionArray[5],
-                            'DiameterOfPipeline': selectedOptionArray[6],
-                            'LocationOfPipe': selectedOptionArray[7],
-                            'CoverOfPipeline': selectedOptionArray[8],
-                            'LeakGrading': selectedOptionArray[9],
-                            'MainArea': selectedOptionArray[10],
-                            'SubArea': selectedOptionArray[11],
-                            'DPIR-ReadingFirst': selectedOptionArray[12],
-                            'DPIR-BarHole': selectedOptionArray[13],
-                          };
-                        } else {
-                          selectedOptionsDictionary = {
-                            'TypeOfLeak': selectedOptionArray[0],
-                            'ConsumerType': selectedOptionArray[1],
-                            'LeakFirstDetectedThrough': selectedOptionArray[2],
-                            'Pipeline': selectedOptionArray[3],
-                            'PressureOfPipeline': selectedOptionArray[4],
-                            'PipelineDistributionType': selectedOptionArray[5],
-                            'DiameterOfPipeline': selectedOptionArray[6],
-                            'SourceOfLeak': selectedOptionArray[7],
-                            'LocationOfPipe': selectedOptionArray[8],
-                            'LeakGrading': selectedOptionArray[9],
-                            'MainArea': selectedOptionArray[10],
-                            'SubArea': selectedOptionArray[11],
-                            'DPIR-ReadingFirst': selectedOptionArray[12],
-                            'DPIR-BarHole': selectedOptionArray[13],
-                          };
+                        if (selectedOptionArray.isNotEmpty) {
+                          if (selectedOptionArray[0] == 'Underground') {
+                            selectedOptionsDictionary = {
+                              'TypeOfLeak': selectedOptionArray[0],
+                              'ConsumerType': selectedOptionArray[1],
+                              'LeakFirstDetectedThrough': selectedOptionArray[2],
+                              'Pipeline': selectedOptionArray[3],
+                              'PressureOfPipeline': selectedOptionArray[4],
+                              'PipelineDistributionType': selectedOptionArray[5],
+                              'DiameterOfPipeline': selectedOptionArray[6],
+                              'LocationOfPipe': selectedOptionArray[7],
+                              'CoverOfPipeline': selectedOptionArray[8],
+                              'LeakGrading': selectedOptionArray[9],
+                              'MainArea': selectedOptionArray[10],
+                              'SubArea': selectedOptionArray[11],
+                              'DPIR-ReadingFirst': selectedOptionArray[12],
+                              'DPIR-BarHole': selectedOptionArray[13],
+                              'RMLD-ReadingFirst': selectedOptionArray[14],
+                            };
+                          } else {
+                            selectedOptionsDictionary = {
+                              'TypeOfLeak': selectedOptionArray[0],
+                              'ConsumerType': selectedOptionArray[1],
+                              'LeakFirstDetectedThrough': selectedOptionArray[2],
+                              'Pipeline': selectedOptionArray[3],
+                              'PressureOfPipeline': selectedOptionArray[4],
+                              'PipelineDistributionType': selectedOptionArray[5],
+                              'DiameterOfPipeline': selectedOptionArray[6],
+                              'SourceOfLeak': selectedOptionArray[7],
+                              'LocationOfPipe': selectedOptionArray[8],
+                              'LeakGrading': selectedOptionArray[9],
+                              'MainArea': selectedOptionArray[10],
+                              'SubArea': selectedOptionArray[11],
+                              'DPIR-ReadingFirst': selectedOptionArray[12],
+                              'DPIR-BarHole': selectedOptionArray[13],
+                              'RMLD-ReadingFirst': selectedOptionArray[14],
+                            };
+                          }
                         }
+                        print(selectedOptionsDictionary);
+
+                        Navigator.popUntil(context, (route) {
+                          // Increment the counter when encountering a non-first route
+                          if (!route.isFirst) {
+                            count++;
+                          }
+                          return count == 12;
+                        });
+
+                        // Navigator.popUntil(context, ModalRoute.withName('/homescreen'));
+                        String? windDirectionAndSpeed = "";
+                        String? weatherTemperature = "";
+                        String? addressAsPerGoogle = "";
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please take both a photo and a video before submitting.'),
+                          ),
+                        );
                       }
-
-                      print(selectedOptionsDictionary);
-                      Navigator.popUntil(context, (route) {
-                        // Increment the counter when encountering a non-first route
-                        if (!route.isFirst) {
-                          count++;
-                        }
-                        return count == 12;
-                      });
-                      // Navigator.popUntil(context, ModalRoute.withName('/homescreen'));
-                      String? windDirectionAndSpeed = "";
-                      String? weatherTemperature = "";
-                      String? addressAsPerGoogle = "";
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -493,6 +507,7 @@ class _FormFillState extends State<FormFill> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+
               ],
             ),
           ),
